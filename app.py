@@ -143,6 +143,21 @@ st.markdown("""
     /* Dark Theme Background */
     .stApp { background-color: #0b0f19; color: #f8fafc; }
     
+    /* 
+     * MAC MONITOR FIX: Lock the maximum width of all columns so cards stay tight 
+     * and poster-sized instead of stretching across ultra-wide screens.
+     */
+    section[data-testid="stMain"] div[data-testid="column"] {
+        max-width: 320px !important;
+        margin: 0 auto;
+    }
+
+    /* Remove secret padding injected by Markdown wrapper */
+    .stMarkdown, .stMarkdown p {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
     /* Fancy Centered Header */
     .fancy-header {
         text-align: center;
@@ -156,32 +171,61 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE POSTER */
+    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
         border-radius: 12px;
-        padding: 0;  /* 0 padding so the image touches the very edges */
+        padding: 0; 
         display: flex;
         flex-direction: column;
-        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         margin-bottom: 6px;
-        overflow: hidden; /* Clips anything that bleeds past the 12px rounded corners */
     }
     .custom-card:hover {
         border-color: #38bdf8;
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+    }
+    
+    /* Image Container for Glare Effect */
+    .img-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 12px 12px 0 0; 
+        border-bottom: 1px solid #233547;
     }
     
     /* 2:3 Vertical Poster Settings */
     .card-img {
         width: 100%;
+        display: block;
         aspect-ratio: 2 / 3;
         object-fit: cover;
-        border-radius: 12px 12px 0 0; /* Only round top corners to match the card border perfectly */
-        border-bottom: 1px solid #233547; /* Tiny separation line below the picture */
+        transition: transform 0.4s ease;
+    }
+    .custom-card:hover .card-img {
+        transform: scale(1.04); /* Subtle zoom in on hover */
+    }
+    
+    /* STEAM STYLE REFLECTIVE GLARE */
+    .glare {
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-25deg);
+        transition: left 0.6s ease;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .custom-card:hover .glare {
+        left: 200%;
+        transition: left 0.6s ease;
     }
     
     /* Content wrapper for the stats and text */
@@ -192,7 +236,6 @@ st.markdown("""
         gap: 10px;
     }
     
-    /* Title */
     .card-title {
         font-size: 1.2rem;
         font-weight: 700;
@@ -209,7 +252,7 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(0,0,0,0.25);
+        background: rgba(0,0,0,0.3);
         padding: 8px 10px;
         border-radius: 8px;
         border: 1px solid #1e293b;
@@ -249,27 +292,32 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* Custom Colors for Quick Match Logger Buttons (Win/Loss) */
-    [data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
-        background-color: rgba(173, 255, 47, 0.15) !important; /* Yellowish Green tint */
-        border: 1px solid #adff2f !important;
+    /* VIBRANT WIN / LOSS BUTTONS */
+    /* Target inner columns (buttons) precisely to avoid recoloring sidebar buttons */
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
+        background-color: rgba(173, 255, 47, 0.12) !important;
+        border: 1px solid rgba(173, 255, 47, 0.5) !important;
         color: #adff2f !important;
-        font-weight: 600 !important;
+        transition: all 0.3s ease;
     }
-    [data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:hover {
-        background-color: rgba(173, 255, 47, 0.3) !important;
-        color: #ffffff !important;
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:hover {
+        background-color: rgba(173, 255, 47, 0.25) !important;
+        border: 1px solid #adff2f !important;
+        color: #fff !important;
+        box-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
     }
     
-    [data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button {
-        background-color: rgba(239, 68, 68, 0.15) !important; /* Red tint */
-        border: 1px solid #ef4444 !important;
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button {
+        background-color: rgba(239, 68, 68, 0.12) !important;
+        border: 1px solid rgba(239, 68, 68, 0.5) !important;
         color: #ef4444 !important;
-        font-weight: 600 !important;
+        transition: all 0.3s ease;
     }
-    [data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:hover {
-        background-color: rgba(239, 68, 68, 0.3) !important;
-        color: #ffffff !important;
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:hover {
+        background-color: rgba(239, 68, 68, 0.25) !important;
+        border: 1px solid #ef4444 !important;
+        color: #fff !important;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
     }
 
     /* Streamlit Expander styling */
@@ -333,8 +381,8 @@ for idx, game in enumerate(games):
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
-        # 100% flat HTML string format with the new edge-to-edge layout and nested card-body
-        html_card = f'<div class="custom-card"><img src="{game["cover"]}" class="card-img" /><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
+        # 100% flat HTML string with Image Container for Glare & Zoom effects
+        html_card = f'<div class="custom-card"><div class="img-container"><img src="{game["cover"]}" class="card-img" /><div class="glare"></div></div><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
         
         st.markdown(html_card, unsafe_allow_html=True)
         
