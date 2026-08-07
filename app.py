@@ -134,13 +134,37 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
+# === TAHOE GLASS & MESH BACKGROUND INJECTION ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
+    /* 1. Full-screen fixed background container that forces the Apple mesh gradient behind everything */
+    .tahoe-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -999999;
+        background-color: #0b101a;
+        background-image: 
+            radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 45%),
+            radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
+            radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, #06090f 100%);
+        pointer-events: none;
+    }
+
+    /* Force Streamlit blocks to be transparent so the background bleeds through */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+        background: transparent !important;
+    }
+    
+    [data-testid="stHeader"] { background: transparent !important; }
     .block-container { max-width: 1250px !important; }
     .stMarkdown, .stMarkdown p { margin: 0 !important; padding: 0 !important; }
     
+    /* Fancy Centered Header */
     .fancy-header {
         text-align: center;
         font-family: 'Orbitron', sans-serif;
@@ -153,13 +177,40 @@ st.markdown("""
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
     }
     
-    /* Apple-Style Glass Game Cards */
+    /* Frosted Glass Sidebar */
+    [data-testid="stSidebar"] {
+        background: rgba(15, 23, 42, 0.45) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    /* Frosted Glass Expanders */
+    div[data-testid="stExpander"] {
+        background: rgba(20, 30, 48, 0.35) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        margin-top: -5px;
+    }
+    div[data-testid="stExpander"] summary {
+        color: #e2e8f0 !important;
+        font-size: 0.95rem !important;
+        padding: 10px 14px !important;
+        border-radius: 14px !important;
+    }
+    
+    /* Apple Glass Game Cards */
     .custom-card {
-        background: rgba(20, 30, 48, 0.55);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(20, 30, 48, 0.4); 
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid rgba(255, 255, 255, 0.25); 
         border-left: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 16px;
         padding: 0; 
@@ -230,7 +281,9 @@ st.markdown("""
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 8px 10px;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.05);
@@ -273,10 +326,12 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* Win / Loss Neon Glass Buttons */
+    /* Win / Loss Neon Buttons */
     section[data-testid="stMain"] button[kind="primary"] {
         background: rgba(57, 255, 20, 0.08) !important;
-        border: 2px solid rgba(57, 255, 20, 0.7) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(57, 255, 20, 0.6) !important;
+        border-top: 2px solid rgba(57, 255, 20, 0.9) !important;
         color: #39FF14 !important;
         font-weight: 800 !important;
         border-radius: 10px !important;
@@ -285,13 +340,15 @@ st.markdown("""
     section[data-testid="stMain"] button[kind="primary"]:hover {
         background: rgba(57, 255, 20, 0.25) !important;
         color: #ffffff !important;
-        border: 2px solid #39FF14 !important;
-        box-shadow: 0 0 15px rgba(57, 255, 20, 0.5) !important;
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.5) !important;
+        transform: translateY(-2px) !important;
     }
     
     section[data-testid="stMain"] button[kind="secondary"] {
         background: rgba(255, 51, 51, 0.08) !important;
-        border: 2px solid rgba(255, 51, 51, 0.7) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(255, 51, 51, 0.6) !important;
+        border-top: 2px solid rgba(255, 51, 51, 0.9) !important;
         color: #FF3333 !important;
         font-weight: 800 !important;
         border-radius: 10px !important;
@@ -300,10 +357,13 @@ st.markdown("""
     section[data-testid="stMain"] button[kind="secondary"]:hover {
         background: rgba(255, 51, 51, 0.25) !important;
         color: #ffffff !important;
-        border: 2px solid #FF3333 !important;
-        box-shadow: 0 0 15px rgba(255, 51, 51, 0.5) !important;
+        box-shadow: 0 0 20px rgba(255, 51, 51, 0.5) !important;
+        transform: translateY(-2px) !important;
     }
 </style>
+
+<!-- Injected HTML background layer -->
+<div class="tahoe-bg"></div>
 """, unsafe_allow_html=True)
 
 if "games" not in st.session_state:
