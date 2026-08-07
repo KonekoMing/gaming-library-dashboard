@@ -159,90 +159,20 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
-# CSS Styling
+# Global Styling
 st.markdown("""
 <style>
     .stApp {
         background-color: #0e141d;
         color: #f3f3f3;
     }
-    
-    /* Steam Card */
-    .steam-card {
-        background: linear-gradient(145deg, #18222d 0%, #111822 100%);
+    img {
+        border-radius: 8px;
+    }
+    div[data-testid="stExpander"] {
         border: 1px solid #283d52;
-        border-radius: 10px;
-        padding: 12px;
-        margin-bottom: 6px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-    }
-    .steam-card:hover {
-        border-color: #66c0f4;
-    }
-    
-    /* 2:3 Aspect Ratio */
-    .cover-art {
-        width: 100%;
-        aspect-ratio: 2 / 3;
-        object-fit: cover;
-        border-radius: 6px;
-        margin-bottom: 8px;
-    }
-    
-    .game-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 8px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .rank-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 6px;
-        background: rgba(0,0,0,0.35);
-        padding: 6px 10px;
-        border-radius: 6px;
-    }
-    
-    .rank-icon {
-        width: 26px;
-        height: 26px;
-        object-fit: contain;
-    }
-    
-    /* Stat Badges */
-    .stat-badge {
-        background-color: #1e2c3c;
-        color: #66c0f4;
-        font-weight: bold;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.82rem;
-    }
-    
-    /* Progress Bar */
-    .progress-container {
-        background-color: #16202c;
-        border-radius: 4px;
-        height: 6px;
-        width: 100%;
-        margin-top: 6px;
-        margin-bottom: 8px;
-        overflow: hidden;
-    }
-    .progress-fill-green { background-color: #2ecc71; height: 100%; }
-    .progress-fill-yellow { background-color: #f1c40f; height: 100%; }
-    .progress-fill-red { background-color: #e74c3c; height: 100%; }
-    
-    /* Compact Buttons */
-    div[data-testid="stHorizontalBlock"] button {
-        padding: 2px 6px !important;
-        font-size: 0.8rem !important;
+        border-radius: 8px;
+        background-color: #141c26;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -252,7 +182,9 @@ if "games" not in st.session_state:
 
 games = st.session_state.games
 
-# Calculate Global Summary Stats
+# Header & Global Summary Metrics
+st.title("Rank Tracker")
+
 total_wins = sum(g["wins"] for g in games)
 total_losses = sum(g["losses"] for g in games)
 total_all_matches = total_wins + total_losses
@@ -260,19 +192,11 @@ global_wr = (total_wins / total_all_matches * 100) if total_all_matches > 0 else
 most_played = max(games, key=lambda x: (x["wins"] + x["losses"])) if games else None
 most_played_title = most_played["title"] if (most_played and (most_played["wins"] + most_played["losses"]) > 0) else "N/A"
 
-# Dashboard Header
-st.title("Rank Tracker")
-
-# Summary Cards Header
 m1, m2, m3, m4 = st.columns(4)
-with m1:
-    st.metric("Total Matches", total_all_matches)
-with m2:
-    st.metric("Overall Win Rate", f"{global_wr:.1f}%")
-with m3:
-    st.metric("Record (W - L)", f"{total_wins} - {total_losses}")
-with m4:
-    st.metric("Most Played", most_played_title)
+m1.metric("Total Matches", total_all_matches)
+m2.metric("Overall Win Rate", f"{global_wr:.1f}%")
+m3.metric("Record (W - L)", f"{total_wins} - {total_losses}")
+m4.metric("Most Played", most_played_title)
 
 st.divider()
 
@@ -314,7 +238,7 @@ with st.sidebar.expander("🗑️ Remove Game"):
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
-# 4-Column Card Grid
+# 4-Column Card Grid using Native Streamlit Display
 cols_per_row = 4
 
 for i in range(0, len(games), cols_per_row):
@@ -324,14 +248,6 @@ for i in range(0, len(games), cols_per_row):
             game = games[i + j]
             total_m = game["wins"] + game["losses"]
             wr = (game["wins"] / total_m * 100) if total_m > 0 else 0.0
-            
-            # Progress bar color logic
-            if wr >= 55.0:
-                bar_class = "progress-fill-green"
-            elif wr >= 50.0:
-                bar_class = "progress-fill-yellow"
-            else:
-                bar_class = "progress-fill-red"
             
             # Streak formatting
             stk = game.get("streak", 0)
@@ -343,35 +259,24 @@ for i in range(0, len(games), cols_per_row):
                 streak_str = "Even"
 
             with cols[j]:
-                # Poster & Stats Container
-                st.markdown(f"""
-                <div class="steam-card">
-                    <img src="{game['cover']}" class="cover-art" />
-                    <div class="game-title">{game['title']}</div>
-                    
-                    <div class="rank-row">
-                        <img src="{game['rank_icon']}" class="rank-icon" />
-                        <div style="font-size:0.83rem; color:#8f98a0;">Peak: <strong style="color:#ffffff;">{game['peak_rank']}</strong></div>
-                    </div>
-                    
-                    <div style="font-size:0.88rem; font-weight:600; margin-bottom:6px; padding-left:2px;">
-                        Current: <span style="color:#66c0f4;">{game['rank_name']}</span>
-                    </div>
-                    
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="stat-badge">W/L: {game['wins']}-{game['losses']}</span>
-                        <span class="stat-badge">{wr:.1f}% WR</span>
-                    </div>
-                    
-                    <div class="progress-container">
-                        <div class="{bar_class}" style="width: {min(wr, 100)}%;"></div>
-                    </div>
-                    
-                    <div style="font-size:0.75rem; color:#8f98a0; text-align:right;">
-                        {streak_str}
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+                # 2:3 Vertical Poster
+                st.image(game["cover"], use_container_width=True)
+                st.subheader(game["title"])
+                
+                # Rank Row (Icon + Peak Rank)
+                r_col1, r_col2 = st.columns([1, 4])
+                with r_col1:
+                    st.image(game["rank_icon"], width=28)
+                with r_col2:
+                    st.caption(f"Peak: **{game['peak_rank']}**")
+                
+                # Current Rank & Stats
+                st.markdown(f"**Current:** `:blue[{game['rank_name']}]`")
+                st.markdown(f"**W/L:** {game['wins']}-{game['losses']} | **{wr:.1f}% WR**")
+                
+                # Visual Win Rate Bar & Streak
+                st.progress(min(int(wr), 100))
+                st.caption(f"Streak: {streak_str}")
                 
                 # Quick Match Logger Buttons
                 btn_c1, btn_c2 = st.columns(2)
