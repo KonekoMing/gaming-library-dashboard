@@ -160,7 +160,7 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card */
+    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
@@ -280,43 +280,51 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* VIBRANT WIN / LOSS BUTTONS */
+    /* === VIBRANT NEON WIN / LOSS BUTTONS === */
+    /* Win Button (+) */
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
-        background-color: rgba(173, 255, 47, 0.12) !important;
-        border: 1px solid rgba(173, 255, 47, 0.5) !important;
-        color: #adff2f !important;
+        background-color: rgba(57, 255, 20, 0.25) !important; /* Brighter Lime Green Fill */
+        border: 2px solid #39FF14 !important; /* Thicker, brighter border */
+        color: #39FF14 !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
         transition: all 0.3s ease;
     }
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:hover {
-        background-color: rgba(173, 255, 47, 0.25) !important;
-        border: 1px solid #adff2f !important;
-        color: #fff !important;
-        box-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+        background-color: rgba(57, 255, 20, 0.5) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
     }
     
+    /* Loss Button (-) */
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button {
-        background-color: rgba(239, 68, 68, 0.12) !important;
-        border: 1px solid rgba(239, 68, 68, 0.5) !important;
-        color: #ef4444 !important;
+        background-color: rgba(255, 51, 51, 0.25) !important; /* Brighter Red Fill */
+        border: 2px solid #FF3333 !important; /* Thicker, brighter border */
+        color: #FF3333 !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
         transition: all 0.3s ease;
     }
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:hover {
-        background-color: rgba(239, 68, 68, 0.25) !important;
-        border: 1px solid #ef4444 !important;
-        color: #fff !important;
-        box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        background-color: rgba(255, 51, 51, 0.5) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(255, 51, 51, 0.7);
     }
 
-    /* STEALTHY EDIT POPOVER BUTTON */
-    div[data-testid="stPopover"] > div > button {
-        background-color: #0f1722 !important;
+    /* STEALTHY EDIT EXPANDER BUTTON */
+    /* Reverted to expander to fix the clipping bug, but styled it to look stealthy */
+    div[data-testid="stExpander"] {
         border: 1px solid #233547 !important;
-        color: #94a3b8 !important;
-        padding: 4px !important;
-        transition: all 0.2s ease;
+        border-radius: 8px !important;
+        background-color: #0f1722 !important;
+        margin-top: -5px;
     }
-    div[data-testid="stPopover"] > div > button:hover {
-        border-color: #38bdf8 !important;
+    div[data-testid="stExpander"] summary {
+        color: #94a3b8 !important;
+        font-size: 0.9rem !important;
+        padding: 8px 12px !important;
+    }
+    div[data-testid="stExpander"] summary:hover {
         color: #38bdf8 !important;
     }
 </style>
@@ -393,8 +401,8 @@ for idx, game in enumerate(games):
                 save_games()
                 st.rerun()
         
-        # Replaced st.expander with st.popover to save vertical space
-        with st.popover("⚙️ Edit Options", use_container_width=True):
+        # Reverted back to expander to ensure it NEVER clips out of the column window
+        with st.expander("⚙️ Edit Options"):
             st.caption("📊 Match Stats & Streak")
             col_w, col_l = st.columns(2)
             with col_w: game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
