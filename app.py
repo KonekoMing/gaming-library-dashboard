@@ -143,20 +143,9 @@ st.markdown("""
     /* Dark Theme Background */
     .stApp { background-color: #0b0f19; color: #f8fafc; }
     
-    /* 
-     * MAC MONITOR FIX: Lock the maximum width of the entire app container.
-     * This stops the layout from stretching indefinitely on ultra-wide screens,
-     * which caused massive empty gaps between the 4 columns.
-     */
-    .block-container {
-        max-width: 1250px !important; 
-    }
-
-    /* Remove secret padding injected by Markdown wrapper */
-    .stMarkdown, .stMarkdown p {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+    /* Lock max width to prevent stretching on Macs */
+    .block-container { max-width: 1250px !important; }
+    .stMarkdown, .stMarkdown p { margin: 0 !important; padding: 0 !important; }
     
     /* Fancy Centered Header */
     .fancy-header {
@@ -171,7 +160,7 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
+    /* Modern Custom Game Card */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
@@ -207,10 +196,10 @@ st.markdown("""
         transition: transform 0.4s ease;
     }
     .custom-card:hover .card-img {
-        transform: scale(1.04); /* Subtle zoom in on hover */
+        transform: scale(1.04);
     }
     
-    /* ONE-WAY STEAM STYLE REFLECTIVE GLARE */
+    /* Steam Style Glare */
     .glare {
         position: absolute;
         top: 0;
@@ -221,14 +210,13 @@ st.markdown("""
         transform: skewX(-25deg);
         pointer-events: none;
         z-index: 2;
-        /* No transition here so it snaps back instantly when mouse leaves */
     }
     .custom-card:hover .glare {
         left: 200%;
-        transition: left 0.6s ease-in-out; /* Animates only on hover entry */
+        transition: left 0.6s ease-in-out;
     }
     
-    /* Content wrapper for the stats and text */
+    /* Stats and Text Container */
     .card-body {
         padding: 10px 10px 14px 10px;
         display: flex;
@@ -319,11 +307,17 @@ st.markdown("""
         box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
     }
 
-    /* Streamlit Expander styling */
-    div[data-testid="stExpander"] {
-        border: 1px solid #233547;
-        border-radius: 8px;
-        background-color: #0f1722;
+    /* STEALTHY EDIT POPOVER BUTTON */
+    div[data-testid="stPopover"] > div > button {
+        background-color: #0f1722 !important;
+        border: 1px solid #233547 !important;
+        color: #94a3b8 !important;
+        padding: 4px !important;
+        transition: all 0.2s ease;
+    }
+    div[data-testid="stPopover"] > div > button:hover {
+        border-color: #38bdf8 !important;
+        color: #38bdf8 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -375,17 +369,16 @@ for idx, game in enumerate(games):
         total_m = game["wins"] + game["losses"]
         wr = (game["wins"] / total_m * 100) if total_m > 0 else 0.0
         
-        # Color & Streak Logic
         bar_class = "progress-fill-green" if wr >= 55 else "progress-fill-yellow" if wr >= 50 else "progress-fill-red"
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
-        # 100% flat HTML string with Image Container for Glare & Zoom effects
+        # 100% flat HTML string
         html_card = f'<div class="custom-card"><div class="img-container"><img src="{game["cover"]}" class="card-img" /><div class="glare"></div></div><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
         
         st.markdown(html_card, unsafe_allow_html=True)
         
-        # Colored Native Buttons directly beneath the sleek card
+        # Win/Loss Buttons
         btn_c1, btn_c2 = st.columns(2)
         with btn_c1:
             if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
@@ -400,7 +393,8 @@ for idx, game in enumerate(games):
                 save_games()
                 st.rerun()
         
-        with st.expander("⚙️ Edit Options"):
+        # Replaced st.expander with st.popover to save vertical space
+        with st.popover("⚙️ Edit Options", use_container_width=True):
             st.caption("📊 Match Stats & Streak")
             col_w, col_l = st.columns(2)
             with col_w: game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
