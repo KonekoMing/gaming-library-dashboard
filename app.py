@@ -160,7 +160,7 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
+    /* Modern Custom Game Card */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
@@ -280,53 +280,73 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* === PREMIUM SOLID GRADIENT WIN / LOSS BUTTONS === */
+    /* ==========================================
+       UNBREAKABLE BUTTON CSS 
+       Targeting buttons natively by 'kind'
+       ========================================== */
+       
+    /* 1. WIN BUTTONS (Targeted via kind="primary") */
+    section[data-testid="stMain"] button[kind="primary"] {
+        background: linear-gradient(135deg, #65a30d 0%, #a3e635 100%) !important; /* Vivid Yellowish Green */
+        border: none !important;
+        color: #0b0f19 !important; /* Dark text on bright button for readability */
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3) !important;
+        border-radius: 6px !important;
+        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    }
+    section[data-testid="stMain"] button[kind="primary"]:hover {
+        background: linear-gradient(135deg, #84cc16 0%, #bef264 100%) !important; /* Brighter on hover */
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(132, 204, 22, 0.5) !important;
+        color: #0b0f19 !important;
+    }
+    section[data-testid="stMain"] button[kind="primary"]:active {
+        transform: translateY(1px) !important;
+        box-shadow: 0 2px 6px rgba(132, 204, 22, 0.4) !important;
+    }
     
-    /* Win Button (+) */
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+    /* 2. LOSS BUTTONS (Targeted via kind="secondary") */
+    section[data-testid="stMain"] button[kind="secondary"] {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important; /* Vivid Ruby Red */
         border: none !important;
         color: #ffffff !important;
         font-weight: 800 !important;
-        letter-spacing: 0.5px !important;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
-        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.25) !important;
-        border-radius: 8px !important;
-        transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        letter-spacing: 1px !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+        border-radius: 6px !important;
+        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:hover {
-        background: linear-gradient(135deg, #15b8a6 0%, #4aff8f 100%) !important;
+    section[data-testid="stMain"] button[kind="secondary"]:hover {
+        background: linear-gradient(135deg, #ef4444 0%, #f87171 100%) !important; /* Brighter on hover */
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 18px rgba(56, 239, 125, 0.45) !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:active {
-        transform: translateY(1px) !important;
-        box-shadow: 0 2px 8px rgba(56, 239, 125, 0.3) !important;
-    }
-    
-    /* Loss Button (-) */
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button {
-        background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%) !important;
-        border: none !important;
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.5) !important;
         color: #ffffff !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.5px !important;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
-        box-shadow: 0 4px 12px rgba(239, 71, 58, 0.25) !important;
-        border-radius: 8px !important;
-        transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     }
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:hover {
-        background: linear-gradient(135deg, #e33547 0%, #ff574a 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 18px rgba(239, 71, 58, 0.45) !important;
-    }
-    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:active {
+    section[data-testid="stMain"] button[kind="secondary"]:active {
         transform: translateY(1px) !important;
-        box-shadow: 0 2px 8px rgba(239, 71, 58, 0.3) !important;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4) !important;
     }
 
-    /* STEALTHY EDIT EXPANDER BUTTON */
+    /* 3. REVERT "SAVE CHANGES" BUTTON (Inside the expander) */
+    /* We make all secondary buttons RED globally, so we must revert the save button inside the edit menu */
+    section[data-testid="stMain"] div[data-testid="stExpander"] button[kind="secondary"] {
+        background: transparent !important;
+        border: 1px solid #38bdf8 !important;
+        color: #38bdf8 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    section[data-testid="stMain"] div[data-testid="stExpander"] button[kind="secondary"]:hover {
+        background: #38bdf8 !important;
+        color: #0b0f19 !important;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    /* STEALTHY EDIT EXPANDER */
     div[data-testid="stExpander"] {
         border: 1px solid #233547 !important;
         border-radius: 8px !important;
@@ -400,22 +420,22 @@ for idx, game in enumerate(games):
         
         st.markdown(html_card, unsafe_allow_html=True)
         
-        # Win/Loss Buttons
+        # === FOOLPROOF BUTTON ROUTING ===
+        # Win is hardcoded to "primary", Loss is hardcoded to "secondary"
         btn_c1, btn_c2 = st.columns(2)
         with btn_c1:
-            if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
+            if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True, type="primary"):
                 game["wins"] += 1
                 game["streak"] = (game.get("streak", 0) + 1) if game.get("streak", 0) >= 0 else 1
                 save_games()
                 st.rerun()
         with btn_c2:
-            if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True):
+            if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True, type="secondary"):
                 game["losses"] += 1
                 game["streak"] = (game.get("streak", 0) - 1) if game.get("streak", 0) <= 0 else -1
                 save_games()
                 st.rerun()
         
-        # Edit Options Expander
         with st.expander("⚙️ Edit Options"):
             st.caption("📊 Match Stats & Streak")
             col_w, col_l = st.columns(2)
@@ -436,6 +456,7 @@ for idx, game in enumerate(games):
             game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
             
             st.divider()
+            # This is "secondary" by default, so it gets the grey override in CSS
             if st.button("Save Changes", key=f"btn_{game['id']}"):
                 save_games()
                 st.success("Updated & Saved!")
