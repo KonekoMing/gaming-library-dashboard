@@ -280,39 +280,53 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* === VIBRANT NEON WIN / LOSS BUTTONS === */
+    /* === PREMIUM SOLID GRADIENT WIN / LOSS BUTTONS === */
+    
     /* Win Button (+) */
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
-        background-color: rgba(57, 255, 20, 0.25) !important; /* Brighter Lime Green Fill */
-        border: 2px solid #39FF14 !important; /* Thicker, brighter border */
-        color: #39FF14 !important;
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+        border: none !important;
+        color: #ffffff !important;
         font-weight: 800 !important;
-        text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
-        transition: all 0.3s ease;
+        letter-spacing: 0.5px !important;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.25) !important;
+        border-radius: 8px !important;
+        transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     }
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:hover {
-        background-color: rgba(57, 255, 20, 0.5) !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
+        background: linear-gradient(135deg, #15b8a6 0%, #4aff8f 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(56, 239, 125, 0.45) !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button:active {
+        transform: translateY(1px) !important;
+        box-shadow: 0 2px 8px rgba(56, 239, 125, 0.3) !important;
     }
     
     /* Loss Button (-) */
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button {
-        background-color: rgba(255, 51, 51, 0.25) !important; /* Brighter Red Fill */
-        border: 2px solid #FF3333 !important; /* Thicker, brighter border */
-        color: #FF3333 !important;
+        background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%) !important;
+        border: none !important;
+        color: #ffffff !important;
         font-weight: 800 !important;
-        text-shadow: 0 0 8px rgba(255, 51, 51, 0.5);
-        transition: all 0.3s ease;
+        letter-spacing: 0.5px !important;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 12px rgba(239, 71, 58, 0.25) !important;
+        border-radius: 8px !important;
+        transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     }
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:hover {
-        background-color: rgba(255, 51, 51, 0.5) !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 15px rgba(255, 51, 51, 0.7);
+        background: linear-gradient(135deg, #e33547 0%, #ff574a 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(239, 71, 58, 0.45) !important;
+    }
+    [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button:active {
+        transform: translateY(1px) !important;
+        box-shadow: 0 2px 8px rgba(239, 71, 58, 0.3) !important;
     }
 
     /* STEALTHY EDIT EXPANDER BUTTON */
-    /* Reverted to expander to fix the clipping bug, but styled it to look stealthy */
     div[data-testid="stExpander"] {
         border: 1px solid #233547 !important;
         border-radius: 8px !important;
@@ -401,7 +415,7 @@ for idx, game in enumerate(games):
                 save_games()
                 st.rerun()
         
-        # Reverted back to expander to ensure it NEVER clips out of the column window
+        # Edit Options Expander
         with st.expander("⚙️ Edit Options"):
             st.caption("📊 Match Stats & Streak")
             col_w, col_l = st.columns(2)
