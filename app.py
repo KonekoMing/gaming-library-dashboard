@@ -238,7 +238,7 @@ with st.sidebar.expander("🗑️ Remove Game"):
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
-# 4-Column Card Grid with Capped Poster Image Sizes
+# 4-Column Card Grid with Capped Poster Image Sizes and Aligned UI
 cols_per_row = 4
 
 for i in range(0, len(games), cols_per_row):
@@ -259,67 +259,68 @@ for i in range(0, len(games), cols_per_row):
                 streak_str = "Even"
 
             with cols[j]:
-                # Centered, Sized-Down Poster (Prevents stretching 600x900 art)
-                img_pad_l, img_col, img_pad_r = st.columns([1, 6, 1])
-                with img_col:
+                # Wrap ALL content in a centered column so UI exactly matches the banner width
+                spacer_l, card_content, spacer_r = st.columns([1, 7, 1])
+                
+                with card_content:
                     st.image(game["cover"], use_container_width=True)
-                
-                st.subheader(game["title"])
-                
-                # Rank Row (Icon + Peak Rank)
-                r_col1, r_col2 = st.columns([1, 4])
-                with r_col1:
-                    st.image(game["rank_icon"], width=28)
-                with r_col2:
-                    st.caption(f"Peak: **{game['peak_rank']}**")
-                
-                # Current Rank & Stats
-                st.markdown(f"**Current:** `:blue[{game['rank_name']}]`")
-                st.markdown(f"**W/L:** {game['wins']}-{game['losses']} | **{wr:.1f}% WR**")
-                
-                # Visual Win Rate Bar & Streak
-                st.progress(min(int(wr), 100))
-                st.caption(f"Streak: {streak_str}")
-                
-                # Quick Match Logger Buttons
-                btn_c1, btn_c2 = st.columns(2)
-                with btn_c1:
-                    if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
-                        game["wins"] += 1
-                        game["streak"] = (game.get("streak", 0) + 1) if game.get("streak", 0) >= 0 else 1
-                        save_games()
-                        st.rerun()
-                with btn_c2:
-                    if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True):
-                        game["losses"] += 1
-                        game["streak"] = (game.get("streak", 0) - 1) if game.get("streak", 0) <= 0 else -1
-                        save_games()
-                        st.rerun()
-                
-                # Extended Edit & Notes Drawer
-                with st.expander("⚙️ Edit Game & Notes"):
-                    st.caption("📊 Match Stats & Streak")
-                    col_w, col_l = st.columns(2)
-                    with col_w:
-                        game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
-                    with col_l:
-                        game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
                     
-                    game['streak'] = st.number_input("Streak (+ Win / - Loss)", value=game.get('streak', 0), key=f"stk_{game['id']}")
+                    st.markdown(f"#### {game['title']}")
                     
-                    st.divider()
-                    st.caption("🏆 Rank Details")
-                    game['rank_name'] = st.text_input("Current Rank", value=game['rank_name'], key=f"rn_{game['id']}")
-                    game['peak_rank'] = st.text_input("Peak Rank", value=game['peak_rank'], key=f"pr_{game['id']}")
-                    game['rank_icon'] = st.text_input("Rank Icon URL", value=game['rank_icon'], key=f"ri_{game['id']}")
+                    # Rank Row (Icon + Peak Rank)
+                    r_col1, r_col2 = st.columns([1, 4])
+                    with r_col1:
+                        st.image(game["rank_icon"], width=28)
+                    with r_col2:
+                        st.caption(f"Peak: **{game['peak_rank']}**")
                     
-                    st.divider()
-                    st.caption("🖼️ Artwork & Notes")
-                    game['cover'] = st.text_input("2:3 Poster URL", value=game['cover'], key=f"c_{game['id']}")
-                    game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}", placeholder="e.g., Aim was locked in on hitscan today...")
+                    # Current Rank (Fixed color text) & Stats
+                    st.markdown(f"**Current:** <span style='color:#66c0f4; font-weight:600;'>{game['rank_name']}</span>", unsafe_allow_html=True)
+                    st.markdown(f"**W/L:** {game['wins']}-{game['losses']} | **{wr:.1f}% WR**")
                     
-                    st.divider()
-                    if st.button("Save Changes", key=f"btn_{game['id']}"):
-                        save_games()
-                        st.success("Updated & Saved!")
-                        st.rerun()
+                    # Visual Win Rate Bar & Streak
+                    st.progress(min(int(wr), 100))
+                    st.caption(f"Streak: {streak_str}")
+                    
+                    # Quick Match Logger Buttons
+                    btn_c1, btn_c2 = st.columns(2)
+                    with btn_c1:
+                        if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
+                            game["wins"] += 1
+                            game["streak"] = (game.get("streak", 0) + 1) if game.get("streak", 0) >= 0 else 1
+                            save_games()
+                            st.rerun()
+                    with btn_c2:
+                        if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True):
+                            game["losses"] += 1
+                            game["streak"] = (game.get("streak", 0) - 1) if game.get("streak", 0) <= 0 else -1
+                            save_games()
+                            st.rerun()
+                    
+                    # Extended Edit & Notes Drawer
+                    with st.expander("⚙️ Edit"):
+                        st.caption("📊 Match Stats & Streak")
+                        col_w, col_l = st.columns(2)
+                        with col_w:
+                            game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
+                        with col_l:
+                            game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
+                        
+                        game['streak'] = st.number_input("Streak", value=game.get('streak', 0), key=f"stk_{game['id']}")
+                        
+                        st.divider()
+                        st.caption("🏆 Rank Details")
+                        game['rank_name'] = st.text_input("Current Rank", value=game['rank_name'], key=f"rn_{game['id']}")
+                        game['peak_rank'] = st.text_input("Peak Rank", value=game['peak_rank'], key=f"pr_{game['id']}")
+                        game['rank_icon'] = st.text_input("Rank Icon URL", value=game['rank_icon'], key=f"ri_{game['id']}")
+                        
+                        st.divider()
+                        st.caption("🖼️ Artwork & Notes")
+                        game['cover'] = st.text_input("2:3 Poster URL", value=game['cover'], key=f"c_{game['id']}")
+                        game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
+                        
+                        st.divider()
+                        if st.button("Save Changes", key=f"btn_{game['id']}"):
+                            save_games()
+                            st.success("Updated & Saved!")
+                            st.rerun()
