@@ -138,8 +138,23 @@ def save_games():
 # High-End Global CSS
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
     /* Dark Theme Background */
     .stApp { background-color: #0b0f19; color: #f8fafc; }
+    
+    /* Fancy Centered Header */
+    .fancy-header {
+        text-align: center;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3.5rem;
+        color: #f8fafc;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
+    }
     
     /* Modern Custom Game Card */
     .custom-card {
@@ -241,19 +256,8 @@ if "games" not in st.session_state:
 
 games = st.session_state.games
 
-# Header & 3-Column Global Summary
-st.title("Rank Tracker")
-
-total_wins = sum(g["wins"] for g in games)
-total_losses = sum(g["losses"] for g in games)
-total_all_matches = total_wins + total_losses
-global_wr = (total_wins / total_all_matches * 100) if total_all_matches > 0 else 0.0
-
-m1, m2, m3 = st.columns(3)
-m1.metric("Total Matches", total_all_matches)
-m2.metric("Overall Win Rate", f"{global_wr:.1f}%")
-m3.metric("Record (W - L)", f"{total_wins} - {total_losses}")
-
+# Display Centered Fancy Header
+st.markdown('<div class="fancy-header">Rank Tracker</div>', unsafe_allow_html=True)
 st.divider()
 
 # Sidebar Controls
@@ -300,32 +304,32 @@ for idx, game in enumerate(games):
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
-        # Unified Custom HTML Card
+        # IMPORTANT: No leading indentation on the HTML string block to prevent Markdown from formatting as code
         html_card = f"""
-        <div class="custom-card">
-            <img src="{game['cover']}" class="card-img" />
-            <div class="card-title">{game['title']}</div>
-            
-            <div class="rank-info">
-                <img src="{game['rank_icon']}" class="rank-icon" />
-                <div class="rank-text">
-                    <span class="peak-rank">Peak: <strong>{game['peak_rank']}</strong></span><br>
-                    <span class="current-rank">Current: <span class="highlight-blue">{game['rank_name']}</span></span>
-                </div>
-            </div>
-            
-            <div class="stats-row">
-                <span>W/L: {game['wins']} - {game['losses']}</span>
-                <span class="highlight-blue">{wr:.1f}% WR</span>
-            </div>
-            
-            <div class="progress-bar-bg">
-                <div class="{bar_class}" style="width: {min(wr, 100)}%;"></div>
-            </div>
-            
-            <div class="streak-text">{streak_str}</div>
+<div class="custom-card">
+    <img src="{game['cover']}" class="card-img" />
+    <div class="card-title">{game['title']}</div>
+    
+    <div class="rank-info">
+        <img src="{game['rank_icon']}" class="rank-icon" />
+        <div class="rank-text">
+            <span class="peak-rank">Peak: <strong>{game['peak_rank']}</strong></span><br>
+            <span class="current-rank">Current: <span class="highlight-blue">{game['rank_name']}</span></span>
         </div>
-        """
+    </div>
+    
+    <div class="stats-row">
+        <span>W/L: {game['wins']} - {game['losses']}</span>
+        <span class="highlight-blue">{wr:.1f}% WR</span>
+    </div>
+    
+    <div class="progress-bar-bg">
+        <div class="{bar_class}" style="width: {min(wr, 100)}%;"></div>
+    </div>
+    
+    <div class="streak-text">{streak_str}</div>
+</div>
+"""
         st.markdown(html_card, unsafe_allow_html=True)
         
         # Streamlit Native Buttons & Drawer directly beneath the sleek card
