@@ -126,7 +126,7 @@ if "games" not in st.session_state:
     st.session_state.games = load_games()
 
 # Header
-st.title("🎮 Steam Vault Stats")
+st.title(" Rank Tracker ")
 
 # Sidebar Controls
 st.sidebar.header("🕹️ Vault Management")
