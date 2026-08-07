@@ -144,12 +144,12 @@ st.markdown("""
     .stApp { background-color: #0b0f19; color: #f8fafc; }
     
     /* 
-     * MAC MONITOR FIX: Lock the maximum width of all columns so cards stay tight 
-     * and poster-sized instead of stretching across ultra-wide screens.
+     * MAC MONITOR FIX: Lock the maximum width of the entire app container.
+     * This stops the layout from stretching indefinitely on ultra-wide screens,
+     * which caused massive empty gaps between the 4 columns.
      */
-    section[data-testid="stMain"] div[data-testid="column"] {
-        max-width: 320px !important;
-        margin: 0 auto;
+    .block-container {
+        max-width: 1250px !important; 
     }
 
     /* Remove secret padding injected by Markdown wrapper */
@@ -210,22 +210,22 @@ st.markdown("""
         transform: scale(1.04); /* Subtle zoom in on hover */
     }
     
-    /* STEAM STYLE REFLECTIVE GLARE */
+    /* ONE-WAY STEAM STYLE REFLECTIVE GLARE */
     .glare {
         position: absolute;
         top: 0;
         left: -150%;
         width: 50%;
         height: 100%;
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
         transform: skewX(-25deg);
-        transition: left 0.6s ease;
         pointer-events: none;
         z-index: 2;
+        /* No transition here so it snaps back instantly when mouse leaves */
     }
     .custom-card:hover .glare {
         left: 200%;
-        transition: left 0.6s ease;
+        transition: left 0.6s ease-in-out; /* Animates only on hover entry */
     }
     
     /* Content wrapper for the stats and text */
@@ -293,7 +293,6 @@ st.markdown("""
     }
     
     /* VIBRANT WIN / LOSS BUTTONS */
-    /* Target inner columns (buttons) precisely to avoid recoloring sidebar buttons */
     [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(1) button {
         background-color: rgba(173, 255, 47, 0.12) !important;
         border: 1px solid rgba(173, 255, 47, 0.5) !important;
