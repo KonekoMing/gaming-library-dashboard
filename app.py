@@ -238,7 +238,7 @@ with st.sidebar.expander("🗑️ Remove Game"):
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
-# 4-Column Card Grid using Native Streamlit Display
+# 4-Column Card Grid with Capped Poster Image Sizes
 cols_per_row = 4
 
 for i in range(0, len(games), cols_per_row):
@@ -259,8 +259,11 @@ for i in range(0, len(games), cols_per_row):
                 streak_str = "Even"
 
             with cols[j]:
-                # 2:3 Vertical Poster
-                st.image(game["cover"], use_container_width=True)
+                # Centered, Sized-Down Poster (Prevents stretching 600x900 art)
+                img_pad_l, img_col, img_pad_r = st.columns([1, 6, 1])
+                with img_col:
+                    st.image(game["cover"], use_container_width=True)
+                
                 st.subheader(game["title"])
                 
                 # Rank Row (Icon + Peak Rank)
