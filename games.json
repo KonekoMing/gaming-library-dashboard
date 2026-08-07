@@ -1,1 +1,82 @@
-[]
+[
+    {
+        "id": 1,
+        "title": "Overwatch",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
+        "rank_name": "Diamond 2",
+        "peak_rank": "Diamond 2",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 17,
+        "losses": 8
+    },
+    {
+        "id": 2,
+        "title": "Rainbow Six Siege",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 3,
+        "title": "Fortnite",
+        "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 4,
+        "title": "Modern Warfare 4",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 5,
+        "title": "Tekken 8",
+        "cover": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 6,
+        "title": "Arena Breakout Infinite",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 7,
+        "title": "Delta Force",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 8,
+        "title": "FragPunk",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    }
+]
