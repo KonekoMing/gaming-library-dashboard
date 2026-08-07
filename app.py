@@ -13,7 +13,7 @@ DEFAULT_GAMES = [
     {
         "id": 1,
         "title": "Overwatch",
-        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
@@ -23,7 +23,7 @@ DEFAULT_GAMES = [
     {
         "id": 2,
         "title": "Rainbow Six Siege",
-        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
@@ -33,7 +33,7 @@ DEFAULT_GAMES = [
     {
         "id": 3,
         "title": "Fortnite",
-        "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=400",
+        "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
@@ -43,7 +43,7 @@ DEFAULT_GAMES = [
     {
         "id": 4,
         "title": "Modern Warfare 4",
-        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
@@ -53,7 +53,7 @@ DEFAULT_GAMES = [
     {
         "id": 5,
         "title": "Tekken 8",
-        "cover": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
+        "cover": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
@@ -63,7 +63,7 @@ DEFAULT_GAMES = [
     {
         "id": 6,
         "title": "Arena Breakout Infinite",
-        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
@@ -73,7 +73,7 @@ DEFAULT_GAMES = [
     {
         "id": 7,
         "title": "Delta Force",
-        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
@@ -83,7 +83,7 @@ DEFAULT_GAMES = [
     {
         "id": 8,
         "title": "FragPunk",
-        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600",
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
@@ -112,7 +112,7 @@ def save_games():
     except Exception as e:
         st.error(f"Error saving data: {e}")
 
-# Styling for Vertical Steam Posters and Dark Theme
+# Styling for 2:3 Vertical Posters and Dark Theme
 st.markdown("""
 <style>
     /* Dark Theme */
@@ -136,10 +136,10 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
-    /* Explicit Vertical Aspect Ratio (Vertical Steam Posters) */
+    /* Strict 2:3 Aspect Ratio (600x900 Style Vertical Posters) */
     .cover-art {
         width: 100%;
-        height: 320px;
+        aspect-ratio: 2 / 3;
         object-fit: cover;
         border-radius: 6px;
         margin-bottom: 10px;
@@ -197,7 +197,7 @@ st.sidebar.header("Management")
 # Add Game Option
 with st.sidebar.expander("➕ Add New Game", expanded=False):
     new_title = st.text_input("Game Title")
-    new_cover = st.text_input("Cover Image URL (Vertical Poster)", "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400")
+    new_cover = st.text_input("Cover Image URL (2:3 Poster)", "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600")
     new_rank = st.text_input("Current Rank Name", "Unranked")
     new_peak = st.text_input("Peak Rank Name", "Unranked")
     new_rank_icon = st.text_input("Rank Icon Image URL", "https://cdn-icons-png.flaticon.com/512/616/616490.png")
@@ -280,7 +280,7 @@ for i in range(0, len(games), cols_per_row):
                     
                     st.divider()
                     st.caption("🖼️ Cover Artwork")
-                    game['cover'] = st.text_input("Vertical Poster Image URL", value=game['cover'], key=f"c_{game['id']}")
+                    game['cover'] = st.text_input("2:3 Poster Image URL", value=game['cover'], key=f"c_{game['id']}")
                     
                     st.divider()
                     if st.button("Save Changes", key=f"btn_{game['id']}"):
