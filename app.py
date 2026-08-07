@@ -156,18 +156,18 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card - TIGHTER PADDING FOR SEAMLESS BORDERS */
+    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE POSTER */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
         border-radius: 12px;
-        padding: 6px;  /* Reduced from 14px to eliminate empty space */
+        padding: 0;  /* 0 padding so the image touches the very edges */
         display: flex;
         flex-direction: column;
-        gap: 10px;
         transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         margin-bottom: 6px;
+        overflow: hidden; /* Clips anything that bleeds past the 12px rounded corners */
     }
     .custom-card:hover {
         border-color: #38bdf8;
@@ -180,8 +180,16 @@ st.markdown("""
         width: 100%;
         aspect-ratio: 2 / 3;
         object-fit: cover;
-        border-radius: 8px; /* Slightly more rounded to match tight borders */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        border-radius: 12px 12px 0 0; /* Only round top corners to match the card border perfectly */
+        border-bottom: 1px solid #233547; /* Tiny separation line below the picture */
+    }
+    
+    /* Content wrapper for the stats and text */
+    .card-body {
+        padding: 10px 10px 14px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     
     /* Title */
@@ -194,7 +202,6 @@ st.markdown("""
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        padding: 0 4px;
     }
     
     /* Rank Pill Box */
@@ -206,7 +213,6 @@ st.markdown("""
         padding: 8px 10px;
         border-radius: 8px;
         border: 1px solid #1e293b;
-        margin: 0 4px;
     }
     .rank-icon { width: 32px; height: 32px; object-fit: contain; }
     .rank-text { font-size: 0.85rem; line-height: 1.4; }
@@ -222,14 +228,13 @@ st.markdown("""
         font-size: 0.9rem;
         font-weight: 600;
         color: #cbd5e1;
-        padding: 0 8px;
+        padding: 0 4px;
     }
     .progress-bar-bg {
         background-color: #1e293b;
         border-radius: 6px;
         height: 6px;
-        width: calc(100% - 8px);
-        margin: 0 auto;
+        width: 100%;
         overflow: hidden;
     }
     .progress-fill-green { background-color: #10b981; height: 100%; }
@@ -240,9 +245,8 @@ st.markdown("""
         font-size: 0.8rem;
         color: #94a3b8;
         text-align: right;
-        padding-right: 8px;
-        margin-top: -2px;
-        margin-bottom: 4px;
+        margin-top: -4px;
+        padding-right: 4px;
     }
     
     /* Custom Colors for Quick Match Logger Buttons (Win/Loss) */
@@ -329,8 +333,8 @@ for idx, game in enumerate(games):
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
-        # 100% flat HTML string format to completely bypass Streamlit's Markdown code blocks
-        html_card = f'<div class="custom-card"><img src="{game["cover"]}" class="card-img" /><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div>'
+        # 100% flat HTML string format with the new edge-to-edge layout and nested card-body
+        html_card = f'<div class="custom-card"><img src="{game["cover"]}" class="card-img" /><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
         
         st.markdown(html_card, unsafe_allow_html=True)
         
