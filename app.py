@@ -4,6 +4,7 @@ import os
 import requests
 import base64
 
+# Page Configuration
 st.set_page_config(page_title="Rank Tracker", layout="wide")
 
 DATA_FILE = "games.json"
@@ -134,13 +135,32 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
+# === ULTIMATE APPLE TAHOE GLASSMORPHISM CSS ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
+    /* 1. Force background layers to be transparent so the Tahoe mesh gradient shows through */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], .main {
+        background-color: transparent !important;
+    }
+
+    /* 2. Apple MacOS / Tahoe Deep Neon Mesh Background */
+    html, body {
+        background-color: #0b101a !important;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, #080c14 100%) !important;
+        background-attachment: fixed !important;
+        color: #f8fafc !important; 
+    }
+    
+    [data-testid="stHeader"] { background: transparent !important; }
     .block-container { max-width: 1250px !important; }
     .stMarkdown, .stMarkdown p { margin: 0 !important; padding: 0 !important; }
     
+    /* Fancy Centered Header */
     .fancy-header {
         text-align: center;
         font-family: 'Orbitron', sans-serif;
@@ -153,13 +173,57 @@ st.markdown("""
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
     }
     
-    /* Apple-Style Glass Game Cards */
+    /* === APPLE TAHOE FROSTED GLASS SIDEBAR === */
+    [data-testid="stSidebar"] {
+        background: rgba(15, 23, 42, 0.5) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    /* === FROSTED GLASS EDIT EXPANDERS === */
+    div[data-testid="stExpander"] {
+        background: rgba(20, 30, 48, 0.4) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important; /* Apple specular light top edge */
+        border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        margin-top: -5px;
+    }
+    div[data-testid="stExpander"] summary {
+        color: #e2e8f0 !important;
+        font-size: 0.95rem !important;
+        padding: 10px 14px !important;
+        border-radius: 14px !important;
+    }
+    div[data-testid="stExpander"] summary:hover {
+        background: rgba(255,255,255,0.05) !important;
+    }
+    
+    /* Input Fields (Text, Number, Area) - Recessed iOS Glass Look */
+    .stTextInput > div > div > input, 
+    .stNumberInput > div > div > input, 
+    .stTextArea > div > div > textarea, 
+    .stSelectbox > div > div > div {
+        background: rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; 
+        color: #f8fafc !important;
+        border-radius: 10px !important;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.4) !important;
+    }
+    
+    /* === APPLE TAHOE GAME CARDS === */
     .custom-card {
-        background: rgba(20, 30, 48, 0.55);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(20, 30, 48, 0.45); 
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid rgba(255, 255, 255, 0.25); /* Captures overhead light */
         border-left: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 16px;
         padding: 0; 
@@ -171,7 +235,7 @@ st.markdown("""
     }
     .custom-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 15px 45px rgba(56, 189, 248, 0.25);
+        box-shadow: 0 15px 45px rgba(56, 189, 248, 0.2);
         border-color: rgba(56, 189, 248, 0.4);
     }
     
@@ -226,11 +290,14 @@ st.markdown("""
         text-overflow: ellipsis;
     }
     
+    /* Nested Frosted Glass Rank Pill */
     .rank-info {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 8px 10px;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.05);
@@ -244,6 +311,7 @@ st.markdown("""
     .current-rank { font-weight: 500; color: #f1f5f9; }
     .highlight-blue { color: #38bdf8; font-weight: 700; text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
     
+    /* Stats & Progress */
     .stats-row {
         display: flex;
         justify-content: space-between;
@@ -273,12 +341,20 @@ st.markdown("""
         padding-right: 4px;
     }
     
-    /* Win / Loss Neon Glass Buttons */
+    /* ==========================================
+       TAHOE GLASS NEON WIN / LOSS BUTTONS
+       ========================================== */
+       
+    /* 1. WIN BUTTON (Frosted Neon Lime) */
     section[data-testid="stMain"] button[kind="primary"] {
         background: rgba(57, 255, 20, 0.08) !important;
-        border: 2px solid rgba(57, 255, 20, 0.7) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(57, 255, 20, 0.6) !important;
+        border-top: 2px solid rgba(57, 255, 20, 0.9) !important;
         color: #39FF14 !important;
         font-weight: 800 !important;
+        letter-spacing: 1px !important;
         border-radius: 10px !important;
         transition: all 0.3s ease !important;
     }
@@ -286,14 +362,21 @@ st.markdown("""
         background: rgba(57, 255, 20, 0.25) !important;
         color: #ffffff !important;
         border: 2px solid #39FF14 !important;
-        box-shadow: 0 0 15px rgba(57, 255, 20, 0.5) !important;
+        text-shadow: 0 0 8px rgba(255,255,255,0.9) !important;
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.5), inset 0 0 15px rgba(57, 255, 20, 0.6) !important;
+        transform: translateY(-2px) !important;
     }
     
+    /* 2. LOSS BUTTON (Frosted Neon Ruby) */
     section[data-testid="stMain"] button[kind="secondary"] {
         background: rgba(255, 51, 51, 0.08) !important;
-        border: 2px solid rgba(255, 51, 51, 0.7) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(255, 51, 51, 0.6) !important;
+        border-top: 2px solid rgba(255, 51, 51, 0.9) !important;
         color: #FF3333 !important;
         font-weight: 800 !important;
+        letter-spacing: 1px !important;
         border-radius: 10px !important;
         transition: all 0.3s ease !important;
     }
@@ -301,7 +384,22 @@ st.markdown("""
         background: rgba(255, 51, 51, 0.25) !important;
         color: #ffffff !important;
         border: 2px solid #FF3333 !important;
-        box-shadow: 0 0 15px rgba(255, 51, 51, 0.5) !important;
+        text-shadow: 0 0 8px rgba(255,255,255,0.9) !important;
+        box-shadow: 0 0 20px rgba(255, 51, 51, 0.5), inset 0 0 15px rgba(255, 51, 51, 0.6) !important;
+        transform: translateY(-2px) !important;
+    }
+    
+    /* Save Changes Button inside Expander */
+    div[data-testid="stExpander"] button[kind="secondary"] {
+        background: rgba(56, 189, 248, 0.15) !important;
+        border: 1px solid rgba(56, 189, 248, 0.6) !important;
+        color: #38bdf8 !important;
+        border-radius: 8px !important;
+    }
+    div[data-testid="stExpander"] button[kind="secondary"]:hover {
+        background: rgba(56, 189, 248, 0.35) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.5) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -311,8 +409,10 @@ if "games" not in st.session_state:
 
 games = st.session_state.games
 
+# Display Centered Fancy Header
 st.markdown('<div class="fancy-header">Rank Tracker</div>', unsafe_allow_html=True)
 
+# Sidebar Controls
 st.sidebar.header("Management")
 
 with st.sidebar.expander("➕ Add New Game", expanded=False):
@@ -343,6 +443,7 @@ with st.sidebar.expander("🗑️ Remove Game"):
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
+# Dynamic Card Grid
 cols = st.columns(4)
 
 for idx, game in enumerate(games):
@@ -354,10 +455,12 @@ for idx, game in enumerate(games):
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
+        # 100% flat HTML string
         html_card = f'<div class="custom-card"><div class="img-container"><img src="{game["cover"]}" class="card-img" /><div class="glare"></div></div><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
         
         st.markdown(html_card, unsafe_allow_html=True)
         
+        # Win/Loss Buttons
         btn_c1, btn_c2 = st.columns(2)
         with btn_c1:
             if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True, type="primary"):
@@ -392,7 +495,7 @@ for idx, game in enumerate(games):
             game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
             
             st.divider()
-            if st.button("Save Changes", key=f"btn_{game['id']}"):
+            if st.button("Save Changes", key=f"btn_{game['id']}", type="secondary"):
                 save_games()
                 st.success("Updated & Saved!")
                 st.rerun()
