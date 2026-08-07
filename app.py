@@ -27,6 +27,60 @@ DEFAULT_GAMES = [
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
         "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 3,
+        "title": "Fortnite",
+        "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 4,
+        "title": "Modern Warfare 4",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 5,
+        "title": "Tekken 8",
+        "cover": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 6,
+        "title": "Arena Breakout Infinite",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 7,
+        "title": "Delta Force",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
+    },
+    {
+        "id": 8,
+        "title": "FragPunk",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     }
 ]
 
@@ -81,19 +135,23 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
-# === BRUTE FORCE GLASSMORPHISM CSS ===
+# === ULTIMATE APPLE TAHOE GLASSMORPHISM CSS ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-    /* BRUTE FORCE: Target every possible root container so Streamlit can't ignore it */
-    html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stApp"] { 
+    /* 1. Force background layers to be transparent so the Tahoe mesh gradient shows through */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], .main {
+        background-color: transparent !important;
+    }
+
+    /* 2. Apple MacOS / Tahoe Deep Neon Mesh Background */
+    html, body {
         background-color: #0b101a !important;
         background-image: 
-            radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-            radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
-            radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%) !important;
+            radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, #080c14 100%) !important;
         background-attachment: fixed !important;
         color: #f8fafc !important; 
     }
@@ -102,6 +160,7 @@ st.markdown("""
     .block-container { max-width: 1250px !important; }
     .stMarkdown, .stMarkdown p { margin: 0 !important; padding: 0 !important; }
     
+    /* Fancy Centered Header */
     .fancy-header {
         text-align: center;
         font-family: 'Orbitron', sans-serif;
@@ -114,103 +173,233 @@ st.markdown("""
         text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
     }
     
-    /* Sidebar */
+    /* === APPLE TAHOE FROSTED GLASS SIDEBAR === */
     [data-testid="stSidebar"] {
-        background: rgba(15, 23, 42, 0.4) !important;
-        backdrop-filter: blur(24px) !important;
-        -webkit-backdrop-filter: blur(24px) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: rgba(15, 23, 42, 0.5) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
     
-    /* Edit Expanders */
+    /* === FROSTED GLASS EDIT EXPANDERS === */
     div[data-testid="stExpander"] {
-        background: rgba(30, 41, 59, 0.3) !important;
+        background: rgba(20, 30, 48, 0.4) !important;
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.15) !important; 
-        border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important; /* Apple specular light top edge */
+        border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
         border-radius: 14px !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
         margin-top: -5px;
     }
-    div[data-testid="stExpander"] summary { color: #e2e8f0 !important; font-size: 0.95rem !important; padding: 10px 14px !important; }
+    div[data-testid="stExpander"] summary {
+        color: #e2e8f0 !important;
+        font-size: 0.95rem !important;
+        padding: 10px 14px !important;
+        border-radius: 14px !important;
+    }
+    div[data-testid="stExpander"] summary:hover {
+        background: rgba(255,255,255,0.05) !important;
+    }
     
-    /* Cards */
+    /* Input Fields (Text, Number, Area) - Recessed iOS Glass Look */
+    .stTextInput > div > div > input, 
+    .stNumberInput > div > div > input, 
+    .stTextArea > div > div > textarea, 
+    .stSelectbox > div > div > div {
+        background: rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; 
+        color: #f8fafc !important;
+        border-radius: 10px !important;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.4) !important;
+    }
+    
+    /* === APPLE TAHOE GAME CARDS === */
     .custom-card {
-        background: rgba(20, 30, 45, 0.35); 
+        background: rgba(20, 30, 48, 0.45); 
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-top: 1px solid rgba(255, 255, 255, 0.2); 
-        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        border-top: 1px solid rgba(255, 255, 255, 0.25); /* Captures overhead light */
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 16px;
         padding: 0; 
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         margin-bottom: 6px;
     }
-    .custom-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5); }
+    .custom-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 45px rgba(56, 189, 248, 0.2);
+        border-color: rgba(56, 189, 248, 0.4);
+    }
     
-    .img-container { position: relative; width: 100%; overflow: hidden; border-radius: 16px 16px 0 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .card-img { width: 100%; display: block; aspect-ratio: 2 / 3; object-fit: cover; transition: transform 0.4s ease; }
+    .img-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 16px 16px 0 0; 
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    .card-img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
     .custom-card:hover .card-img { transform: scale(1.04); }
     
-    .card-body { padding: 12px 10px 14px 10px; display: flex; flex-direction: column; gap: 10px; }
-    .card-title { font-size: 1.2rem; font-weight: 700; color: #f8fafc; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .glare {
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-25deg);
+        pointer-events: none;
+        z-index: 2;
+    }
+    .custom-card:hover .glare {
+        left: 200%;
+        transition: left 0.6s ease-in-out;
+    }
     
-    /* Rank Pill Box */
+    .card-body {
+        padding: 12px 10px 14px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #f8fafc;
+        text-align: center;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Nested Frosted Glass Rank Pill */
     .rank-info {
-        display: flex; align-items: center; gap: 12px; background: rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
     }
     .rank-icon { width: 32px; height: 32px; object-fit: contain; }
     .rank-text { font-size: 0.85rem; line-height: 1.4; }
     .peak-rank { color: #cbd5e1; }
     .peak-rank strong { color: #f8fafc; font-weight: 600; }
     .current-rank { font-weight: 500; color: #f1f5f9; }
-    .highlight-blue { color: #38bdf8; font-weight: 700; text-shadow: 0 0 8px rgba(56, 189, 248, 0.3); }
+    .highlight-blue { color: #38bdf8; font-weight: 700; text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
     
     /* Stats & Progress */
-    .stats-row { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; color: #e2e8f0; padding: 0 4px; }
-    .progress-bar-bg { background-color: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; height: 8px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); }
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        padding: 0 4px;
+    }
+    .progress-bar-bg {
+        background-color: rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 6px;
+        height: 8px;
+        width: 100%;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
     .progress-fill-green { background: linear-gradient(90deg, #10b981, #34d399); height: 100%; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
     .progress-fill-yellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); height: 100%; box-shadow: 0 0 10px rgba(245,158,11,0.5); }
     .progress-fill-red { background: linear-gradient(90deg, #ef4444, #f87171); height: 100%; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
-    .streak-text { font-size: 0.8rem; color: #cbd5e1; text-align: right; margin-top: -4px; padding-right: 4px; }
     
-    /* Win Button */
+    .streak-text {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        text-align: right;
+        margin-top: -4px;
+        padding-right: 4px;
+    }
+    
+    /* ==========================================
+       TAHOE GLASS NEON WIN / LOSS BUTTONS
+       ========================================== */
+       
+    /* 1. WIN BUTTON (Frosted Neon Lime) */
     section[data-testid="stMain"] button[kind="primary"] {
-        background: rgba(57, 255, 20, 0.05) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important;
-        border: 2px solid rgba(57, 255, 20, 0.6) !important; border-top: 2px solid rgba(57, 255, 20, 0.9) !important;
-        color: #39FF14 !important; font-weight: 800 !important; border-radius: 10px !important; transition: all 0.3s ease !important;
+        background: rgba(57, 255, 20, 0.08) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(57, 255, 20, 0.6) !important;
+        border-top: 2px solid rgba(57, 255, 20, 0.9) !important;
+        color: #39FF14 !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        border-radius: 10px !important;
+        transition: all 0.3s ease !important;
     }
     section[data-testid="stMain"] button[kind="primary"]:hover {
-        background: rgba(57, 255, 20, 0.2) !important; color: #ffffff !important; border: 2px solid #39FF14 !important;
-        text-shadow: 0 0 5px rgba(255,255,255,0.8) !important; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), inset 0 0 15px rgba(57, 255, 20, 0.5) !important;
+        background: rgba(57, 255, 20, 0.25) !important;
+        color: #ffffff !important;
+        border: 2px solid #39FF14 !important;
+        text-shadow: 0 0 8px rgba(255,255,255,0.9) !important;
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.5), inset 0 0 15px rgba(57, 255, 20, 0.6) !important;
         transform: translateY(-2px) !important;
     }
     
-    /* Loss Button */
+    /* 2. LOSS BUTTON (Frosted Neon Ruby) */
     section[data-testid="stMain"] button[kind="secondary"] {
-        background: rgba(255, 51, 51, 0.05) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important;
-        border: 2px solid rgba(255, 51, 51, 0.6) !important; border-top: 2px solid rgba(255, 51, 51, 0.9) !important;
-        color: #FF3333 !important; font-weight: 800 !important; border-radius: 10px !important; transition: all 0.3s ease !important;
+        background: rgba(255, 51, 51, 0.08) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 2px solid rgba(255, 51, 51, 0.6) !important;
+        border-top: 2px solid rgba(255, 51, 51, 0.9) !important;
+        color: #FF3333 !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        border-radius: 10px !important;
+        transition: all 0.3s ease !important;
     }
     section[data-testid="stMain"] button[kind="secondary"]:hover {
-        background: rgba(255, 51, 51, 0.2) !important; color: #ffffff !important; border: 2px solid #FF3333 !important;
-        text-shadow: 0 0 5px rgba(255,255,255,0.8) !important; box-shadow: 0 0 15px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(255, 51, 51, 0.5) !important;
+        background: rgba(255, 51, 51, 0.25) !important;
+        color: #ffffff !important;
+        border: 2px solid #FF3333 !important;
+        text-shadow: 0 0 8px rgba(255,255,255,0.9) !important;
+        box-shadow: 0 0 20px rgba(255, 51, 51, 0.5), inset 0 0 15px rgba(255, 51, 51, 0.6) !important;
         transform: translateY(-2px) !important;
     }
     
-    /* Fix Save Button */
+    /* Save Changes Button inside Expander */
     div[data-testid="stExpander"] button[kind="secondary"] {
-        background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.5) !important;
-        color: #38bdf8 !important; box-shadow: none !important; border-radius: 8px !important;
+        background: rgba(56, 189, 248, 0.15) !important;
+        border: 1px solid rgba(56, 189, 248, 0.6) !important;
+        color: #38bdf8 !important;
+        border-radius: 8px !important;
+    }
+    div[data-testid="stExpander"] button[kind="secondary"]:hover {
+        background: rgba(56, 189, 248, 0.35) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.5) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -220,8 +409,8 @@ if "games" not in st.session_state:
 
 games = st.session_state.games
 
-# DIAGNOSTIC TEST: The Title should now say "Rank Tracker: Glass Edition"
-st.markdown('<div class="fancy-header">Rank Tracker: Glass Edition</div>', unsafe_allow_html=True)
+# Display Centered Fancy Header
+st.markdown('<div class="fancy-header">Rank Tracker</div>', unsafe_allow_html=True)
 
 # Sidebar Controls
 st.sidebar.header("Management")
@@ -266,10 +455,12 @@ for idx, game in enumerate(games):
         stk = game.get("streak", 0)
         streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
         
-        html_card = f'<div class="custom-card"><div class="img-container"><img src="{game["cover"]}" class="card-img" /></div><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
+        # 100% flat HTML string
+        html_card = f'<div class="custom-card"><div class="img-container"><img src="{game["cover"]}" class="card-img" /><div class="glare"></div></div><div class="card-body"><div class="card-title">{game["title"]}</div><div class="rank-info"><img src="{game["rank_icon"]}" class="rank-icon" /><div class="rank-text"><span class="peak-rank">Peak: <strong>{game["peak_rank"]}</strong></span><br><span class="current-rank">Current: <span class="highlight-blue">{game["rank_name"]}</span></span></div></div><div class="stats-row"><span>W/L: {game["wins"]} - {game["losses"]}</span><span class="highlight-blue">{wr:.1f}% WR</span></div><div class="progress-bar-bg"><div class="{bar_class}" style="width: {min(wr, 100)}%;"></div></div><div class="streak-text">{streak_str}</div></div></div>'
         
         st.markdown(html_card, unsafe_allow_html=True)
         
+        # Win/Loss Buttons
         btn_c1, btn_c2 = st.columns(2)
         with btn_c1:
             if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True, type="primary"):
