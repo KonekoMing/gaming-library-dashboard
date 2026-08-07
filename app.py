@@ -17,10 +17,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 2,
@@ -29,10 +26,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 3,
@@ -41,10 +35,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 4,
@@ -53,10 +44,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 5,
@@ -65,10 +53,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 6,
@@ -77,10 +62,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 7,
@@ -89,10 +71,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     },
     {
         "id": 8,
@@ -101,10 +80,7 @@ DEFAULT_GAMES = [
         "rank_name": "Unranked",
         "peak_rank": "Unranked",
         "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-        "wins": 0,
-        "losses": 0,
-        "streak": 0,
-        "notes": ""
+        "wins": 0, "losses": 0, "streak": 0, "notes": ""
     }
 ]
 
@@ -159,20 +135,103 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
-# Global Styling
+# High-End Global CSS
 st.markdown("""
 <style>
-    .stApp {
-        background-color: #0e141d;
-        color: #f3f3f3;
+    /* Dark Theme Background */
+    .stApp { background-color: #0b0f19; color: #f8fafc; }
+    
+    /* Modern Custom Game Card */
+    .custom-card {
+        background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
+        border: 1px solid #233547;
+        border-radius: 12px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        margin-bottom: 8px;
     }
-    img {
+    .custom-card:hover {
+        border-color: #38bdf8;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+    }
+    
+    /* 2:3 Vertical Poster Settings */
+    .card-img {
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
         border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
+    
+    /* Title */
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #f8fafc;
+        text-align: center;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Rank Pill Box */
+    .rank-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0,0,0,0.25);
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #1e293b;
+    }
+    .rank-icon { width: 32px; height: 32px; object-fit: contain; }
+    .rank-text { font-size: 0.85rem; line-height: 1.4; }
+    .peak-rank { color: #94a3b8; }
+    .peak-rank strong { color: #f1f5f9; font-weight: 600; }
+    .current-rank { font-weight: 500; color: #e2e8f0; }
+    .highlight-blue { color: #38bdf8; font-weight: 700; }
+    
+    /* Stats & Progress */
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        padding: 0 4px;
+    }
+    .progress-bar-bg {
+        background-color: #1e293b;
+        border-radius: 6px;
+        height: 6px;
+        width: 100%;
+        overflow: hidden;
+        margin-top: -4px;
+    }
+    .progress-fill-green { background-color: #10b981; height: 100%; }
+    .progress-fill-yellow { background-color: #f59e0b; height: 100%; }
+    .progress-fill-red { background-color: #ef4444; height: 100%; }
+    
+    .streak-text {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        text-align: right;
+        padding-right: 4px;
+        margin-top: -4px;
+    }
+    
+    /* Streamlit Expander styling */
     div[data-testid="stExpander"] {
-        border: 1px solid #283d52;
+        border: 1px solid #233547;
         border-radius: 8px;
-        background-color: #141c26;
+        background-color: #0f1722;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -182,21 +241,18 @@ if "games" not in st.session_state:
 
 games = st.session_state.games
 
-# Header & Global Summary Metrics
+# Header & 3-Column Global Summary
 st.title("Rank Tracker")
 
 total_wins = sum(g["wins"] for g in games)
 total_losses = sum(g["losses"] for g in games)
 total_all_matches = total_wins + total_losses
 global_wr = (total_wins / total_all_matches * 100) if total_all_matches > 0 else 0.0
-most_played = max(games, key=lambda x: (x["wins"] + x["losses"])) if games else None
-most_played_title = most_played["title"] if (most_played and (most_played["wins"] + most_played["losses"]) > 0) else "N/A"
 
-m1, m2, m3, m4 = st.columns(4)
+m1, m2, m3 = st.columns(3)
 m1.metric("Total Matches", total_all_matches)
 m2.metric("Overall Win Rate", f"{global_wr:.1f}%")
 m3.metric("Record (W - L)", f"{total_wins} - {total_losses}")
-m4.metric("Most Played", most_played_title)
 
 st.divider()
 
@@ -214,16 +270,9 @@ with st.sidebar.expander("➕ Add New Game", expanded=False):
         if new_title:
             new_id = max([g["id"] for g in games] + [0]) + 1
             games.append({
-                "id": new_id,
-                "title": new_title,
-                "cover": new_cover,
-                "rank_name": new_rank,
-                "peak_rank": new_peak,
-                "rank_icon": new_rank_icon,
-                "wins": 0,
-                "losses": 0,
-                "streak": 0,
-                "notes": ""
+                "id": new_id, "title": new_title, "cover": new_cover,
+                "rank_name": new_rank, "peak_rank": new_peak, "rank_icon": new_rank_icon,
+                "wins": 0, "losses": 0, "streak": 0, "notes": ""
             })
             save_games()
             st.success(f"Added {new_title}!")
@@ -238,89 +287,83 @@ with st.sidebar.expander("🗑️ Remove Game"):
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
-# 4-Column Card Grid with Capped Poster Image Sizes and Aligned UI
-cols_per_row = 4
+# Dynamic Card Grid (Optimized Loop)
+cols = st.columns(4)
 
-for i in range(0, len(games), cols_per_row):
-    cols = st.columns(cols_per_row)
-    for j in range(cols_per_row):
-        if i + j < len(games):
-            game = games[i + j]
-            total_m = game["wins"] + game["losses"]
-            wr = (game["wins"] / total_m * 100) if total_m > 0 else 0.0
+for idx, game in enumerate(games):
+    with cols[idx % 4]:
+        total_m = game["wins"] + game["losses"]
+        wr = (game["wins"] / total_m * 100) if total_m > 0 else 0.0
+        
+        # Color & Streak Logic
+        bar_class = "progress-fill-green" if wr >= 55 else "progress-fill-yellow" if wr >= 50 else "progress-fill-red"
+        stk = game.get("streak", 0)
+        streak_str = f"🔥 {stk} W Streak" if stk > 0 else f"📉 {abs(stk)} L Streak" if stk < 0 else "Even"
+        
+        # Unified Custom HTML Card
+        html_card = f"""
+        <div class="custom-card">
+            <img src="{game['cover']}" class="card-img" />
+            <div class="card-title">{game['title']}</div>
             
-            # Streak formatting
-            stk = game.get("streak", 0)
-            if stk > 0:
-                streak_str = f"🔥 {stk} W Streak"
-            elif stk < 0:
-                streak_str = f"📉 {abs(stk)} L Streak"
-            else:
-                streak_str = "Even"
-
-            with cols[j]:
-                # Wrap ALL content in a centered column so UI exactly matches the banner width
-                spacer_l, card_content, spacer_r = st.columns([1, 7, 1])
-                
-                with card_content:
-                    st.image(game["cover"], use_container_width=True)
-                    
-                    st.markdown(f"#### {game['title']}")
-                    
-                    # Rank Row (Icon + Peak Rank)
-                    r_col1, r_col2 = st.columns([1, 4])
-                    with r_col1:
-                        st.image(game["rank_icon"], width=28)
-                    with r_col2:
-                        st.caption(f"Peak: **{game['peak_rank']}**")
-                    
-                    # Current Rank (Fixed color text) & Stats
-                    st.markdown(f"**Current:** <span style='color:#66c0f4; font-weight:600;'>{game['rank_name']}</span>", unsafe_allow_html=True)
-                    st.markdown(f"**W/L:** {game['wins']}-{game['losses']} | **{wr:.1f}% WR**")
-                    
-                    # Visual Win Rate Bar & Streak
-                    st.progress(min(int(wr), 100))
-                    st.caption(f"Streak: {streak_str}")
-                    
-                    # Quick Match Logger Buttons
-                    btn_c1, btn_c2 = st.columns(2)
-                    with btn_c1:
-                        if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
-                            game["wins"] += 1
-                            game["streak"] = (game.get("streak", 0) + 1) if game.get("streak", 0) >= 0 else 1
-                            save_games()
-                            st.rerun()
-                    with btn_c2:
-                        if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True):
-                            game["losses"] += 1
-                            game["streak"] = (game.get("streak", 0) - 1) if game.get("streak", 0) <= 0 else -1
-                            save_games()
-                            st.rerun()
-                    
-                    # Extended Edit & Notes Drawer
-                    with st.expander("⚙️ Edit"):
-                        st.caption("📊 Match Stats & Streak")
-                        col_w, col_l = st.columns(2)
-                        with col_w:
-                            game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
-                        with col_l:
-                            game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
-                        
-                        game['streak'] = st.number_input("Streak", value=game.get('streak', 0), key=f"stk_{game['id']}")
-                        
-                        st.divider()
-                        st.caption("🏆 Rank Details")
-                        game['rank_name'] = st.text_input("Current Rank", value=game['rank_name'], key=f"rn_{game['id']}")
-                        game['peak_rank'] = st.text_input("Peak Rank", value=game['peak_rank'], key=f"pr_{game['id']}")
-                        game['rank_icon'] = st.text_input("Rank Icon URL", value=game['rank_icon'], key=f"ri_{game['id']}")
-                        
-                        st.divider()
-                        st.caption("🖼️ Artwork & Notes")
-                        game['cover'] = st.text_input("2:3 Poster URL", value=game['cover'], key=f"c_{game['id']}")
-                        game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
-                        
-                        st.divider()
-                        if st.button("Save Changes", key=f"btn_{game['id']}"):
-                            save_games()
-                            st.success("Updated & Saved!")
-                            st.rerun()
+            <div class="rank-info">
+                <img src="{game['rank_icon']}" class="rank-icon" />
+                <div class="rank-text">
+                    <span class="peak-rank">Peak: <strong>{game['peak_rank']}</strong></span><br>
+                    <span class="current-rank">Current: <span class="highlight-blue">{game['rank_name']}</span></span>
+                </div>
+            </div>
+            
+            <div class="stats-row">
+                <span>W/L: {game['wins']} - {game['losses']}</span>
+                <span class="highlight-blue">{wr:.1f}% WR</span>
+            </div>
+            
+            <div class="progress-bar-bg">
+                <div class="{bar_class}" style="width: {min(wr, 100)}%;"></div>
+            </div>
+            
+            <div class="streak-text">{streak_str}</div>
+        </div>
+        """
+        st.markdown(html_card, unsafe_allow_html=True)
+        
+        # Streamlit Native Buttons & Drawer directly beneath the sleek card
+        btn_c1, btn_c2 = st.columns(2)
+        with btn_c1:
+            if st.button("➕ Win", key=f"qw_{game['id']}", use_container_width=True):
+                game["wins"] += 1
+                game["streak"] = (game.get("streak", 0) + 1) if game.get("streak", 0) >= 0 else 1
+                save_games()
+                st.rerun()
+        with btn_c2:
+            if st.button("➕ Loss", key=f"ql_{game['id']}", use_container_width=True):
+                game["losses"] += 1
+                game["streak"] = (game.get("streak", 0) - 1) if game.get("streak", 0) <= 0 else -1
+                save_games()
+                st.rerun()
+        
+        with st.expander("⚙️ Edit Options"):
+            st.caption("📊 Match Stats & Streak")
+            col_w, col_l = st.columns(2)
+            with col_w: game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
+            with col_l: game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
+            
+            game['streak'] = st.number_input("Streak", value=game.get('streak', 0), key=f"stk_{game['id']}")
+            
+            st.divider()
+            st.caption("🏆 Rank Details")
+            game['rank_name'] = st.text_input("Current Rank", value=game['rank_name'], key=f"rn_{game['id']}")
+            game['peak_rank'] = st.text_input("Peak Rank", value=game['peak_rank'], key=f"pr_{game['id']}")
+            game['rank_icon'] = st.text_input("Rank Icon URL", value=game['rank_icon'], key=f"ri_{game['id']}")
+            
+            st.divider()
+            st.caption("🖼️ Artwork & Notes")
+            game['cover'] = st.text_input("2:3 Poster URL", value=game['cover'], key=f"c_{game['id']}")
+            game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
+            
+            st.divider()
+            if st.button("Save Changes", key=f"btn_{game['id']}"):
+                save_games()
+                st.success("Updated & Saved!")
+                st.rerun()
