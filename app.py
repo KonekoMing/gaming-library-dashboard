@@ -4,7 +4,7 @@ import pandas as pd
 # Page Configuration
 st.set_page_config(page_title="Gaming Vault", page_icon="🎮", layout="wide")
 
-# Custom Steam-style CSS
+# Custom Steam-style CSS with Scrollbars
 st.markdown("""
 <style>
     /* Dark Steam Background */
@@ -13,6 +13,29 @@ st.markdown("""
         color: #f3f3f3;
     }
     
+    /* Global Smooth Dark Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #101822;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2a475e;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #66c0f4;
+    }
+
+    /* Popover (Update Menu) Scroll Control */
+    [data-testid="stPopoverBody"] {
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        padding-right: 8px;
+    }
+
     /* Steam Card Styling */
     .steam-card {
         background: linear-gradient(135deg, #1b2838 0%, #171a21 100%);
@@ -173,9 +196,11 @@ for i in range(0, len(games), cols_per_row):
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Update Controls (Stats, Rank, & Images)
+                # Scrollable Update Controls (Stats, Rank, & Artwork)
                 with st.popover("⚙️ Edit Game & Rank"):
                     st.subheader(f"Edit {game['title']}")
+                    
+                    st.caption("📊 Match Stats")
                     game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
                     game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
                     
@@ -186,9 +211,10 @@ for i in range(0, len(games), cols_per_row):
                     game['rank_icon'] = st.text_input("Rank Icon Image URL", value=game['rank_icon'], key=f"ri_{game['id']}")
                     
                     st.divider()
-                    st.caption("🖼️ Artwork")
-                    game['cover'] = st.text_input("Cover Image URL", value=game['cover'], key=f"c_{game['id']}")
+                    st.caption("🖼️ Cover Artwork")
+                    game['cover'] = st.text_input("Game Cover Poster URL", value=game['cover'], key=f"c_{game['id']}")
                     
+                    st.divider()
                     if st.button("Save Changes", key=f"btn_{game['id']}"):
                         st.success("Updated successfully!")
                         st.rerun()
