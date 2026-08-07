@@ -4,7 +4,7 @@ import json
 import os
 
 # Page Configuration
-st.set_page_config(page_title="Rank Tracker", page_icon="🎮", layout="wide")
+st.set_page_config(page_title="Gaming Vault", page_icon="🎮", layout="wide")
 
 # File path for permanent data storage
 DATA_FILE = "games.json"
