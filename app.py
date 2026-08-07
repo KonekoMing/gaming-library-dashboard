@@ -135,25 +135,25 @@ def save_games():
         except Exception as e:
             st.error(f"Error saving data: {e}")
 
-# === APPLE TAHOE GLASSMORPHISM GLOBAL CSS ===
+# === BULLETPROOF APPLE TAHOE GLASSMORPHISM CSS ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-    /* 1. MacOS Style Abstract Mesh Background */
-    .stApp { 
-        background-color: #0b101a;
+    /* 1. Bulletproof Mesh Background targeting Streamlit's deepest container */
+    [data-testid="stAppViewContainer"] { 
+        background-color: #0b101a !important;
         background-image: 
             radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
             radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
             radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
-            radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
-        background-attachment: fixed;
-        color: #f8fafc; 
+            radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%) !important;
+        background-attachment: fixed !important;
+        color: #f8fafc !important; 
     }
     
-    /* Make the native header transparent so it doesn't break the glass look */
-    header[data-testid="stHeader"] {
+    /* Make the native header invisible */
+    [data-testid="stHeader"] {
         background: transparent !important;
     }
     
@@ -177,20 +177,20 @@ st.markdown("""
     /* === GLOBAL GLASSMORPHISM ELEMENTS === */
     
     /* Sidebar Frosted Glass */
-    section[data-testid="stSidebar"] {
+    [data-testid="stSidebar"] {
         background: rgba(15, 23, 42, 0.4) !important;
         backdrop-filter: blur(24px) !important;
         -webkit-backdrop-filter: blur(24px) !important;
         border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
     
-    /* Expanders (Both Sidebar and Main UI) Frosted Glass */
+    /* Expanders Frosted Glass */
     div[data-testid="stExpander"] {
         background: rgba(30, 41, 59, 0.3) !important;
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.15) !important; /* Apple top light reflection */
+        border-top: 1px solid rgba(255, 255, 255, 0.15) !important; 
         border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
         border-radius: 14px !important;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
@@ -206,14 +206,14 @@ st.markdown("""
         background: rgba(255,255,255,0.05) !important;
     }
     
-    /* Input Fields (Text, Number, Area) - Recessed Glass Look */
+    /* Input Fields - Recessed Glass Look */
     .stTextInput > div > div > input, 
     .stNumberInput > div > div > input, 
     .stTextArea > div > div > textarea, 
     .stSelectbox > div > div > div {
         background: rgba(0, 0, 0, 0.25) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important; /* Apple bottom highlight for recessed items */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important; 
         color: #f8fafc !important;
         border-radius: 10px !important;
         box-shadow: inset 0 2px 4px rgba(0,0,0,0.3) !important;
@@ -225,22 +225,6 @@ st.markdown("""
         border: 1px solid rgba(56, 189, 248, 0.6) !important;
         background: rgba(0, 0, 0, 0.4) !important;
         box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2), inset 0 2px 4px rgba(0,0,0,0.3) !important;
-    }
-    
-    /* General Standard Buttons (like Save/Delete) Glass Look */
-    button[kind="secondary"] {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-        color: #f8fafc !important;
-        border-radius: 8px !important;
-        transition: all 0.2s ease !important;
-    }
-    button[kind="secondary"]:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border-color: rgba(255, 255, 255, 0.3) !important;
     }
     
     /* === APPLE GLASS GAME CARDS === */
@@ -281,7 +265,6 @@ st.markdown("""
     }
     .custom-card:hover .card-img { transform: scale(1.04); }
     
-    /* Steam/Apple Glare */
     .glare {
         position: absolute;
         top: 0;
@@ -369,11 +352,10 @@ st.markdown("""
     
     /* ==========================================
        NEON GLASS WIN/LOSS BUTTONS 
-       (Overriding the default glass button style above)
        ========================================== */
        
     /* 1. WIN BUTTON (Neon Lime Outline + Glass) */
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"] {
+    section[data-testid="stMain"] button[kind="primary"] {
         background: rgba(57, 255, 20, 0.05) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
@@ -385,7 +367,7 @@ st.markdown("""
         border-radius: 10px !important;
         transition: all 0.3s ease !important;
     }
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"]:hover {
+    section[data-testid="stMain"] button[kind="primary"]:hover {
         background: rgba(57, 255, 20, 0.2) !important;
         color: #ffffff !important;
         border: 2px solid #39FF14 !important;
@@ -395,8 +377,7 @@ st.markdown("""
     }
     
     /* 2. LOSS BUTTON (Neon Ruby Outline + Glass) */
-    /* Target the specific column so it overrides the global secondary button style safely */
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button[kind="secondary"] {
+    section[data-testid="stMain"] button[kind="secondary"] {
         background: rgba(255, 51, 51, 0.05) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
@@ -408,13 +389,38 @@ st.markdown("""
         border-radius: 10px !important;
         transition: all 0.3s ease !important;
     }
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] [data-testid="column"]:nth-child(2) button[kind="secondary"]:hover {
+    section[data-testid="stMain"] button[kind="secondary"]:hover {
         background: rgba(255, 51, 51, 0.2) !important;
         color: #ffffff !important;
         border: 2px solid #FF3333 !important;
         text-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
         box-shadow: 0 0 15px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(255, 51, 51, 0.5) !important;
         transform: translateY(-2px) !important;
+    }
+    
+    /* Override for the Save Game / Sidebar Buttons */
+    section[data-testid="stSidebar"] button[kind="secondary"] {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8fafc !important;
+        box-shadow: none !important;
+    }
+    section[data-testid="stSidebar"] button[kind="secondary"]:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    /* Override for Save Changes inside Expander */
+    div[data-testid="stExpander"] button[kind="secondary"] {
+        background: rgba(56, 189, 248, 0.1) !important;
+        border: 1px solid rgba(56, 189, 248, 0.5) !important;
+        color: #38bdf8 !important;
+        box-shadow: none !important;
+        border-radius: 8px !important;
+    }
+    div[data-testid="stExpander"] button[kind="secondary"]:hover {
+        background: rgba(56, 189, 248, 0.3) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;
     }
 
 </style>
@@ -491,7 +497,6 @@ for idx, game in enumerate(games):
                 save_games()
                 st.rerun()
         
-        # Edit Options Expander
         with st.expander("⚙️ Edit Options"):
             st.caption("📊 Match Stats & Streak")
             col_w, col_l = st.columns(2)
@@ -512,8 +517,7 @@ for idx, game in enumerate(games):
             game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
             
             st.divider()
-            # This is "secondary" by default, so it gets the glass override in CSS
-            if st.button("Save Changes", key=f"btn_{game['id']}"):
+            if st.button("Save Changes", key=f"btn_{game['id']}", type="secondary"):
                 save_games()
                 st.success("Updated & Saved!")
                 st.rerun()
