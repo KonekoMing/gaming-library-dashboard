@@ -160,7 +160,7 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card */
+    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
     .custom-card {
         background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
         border: 1px solid #233547;
@@ -281,69 +281,56 @@ st.markdown("""
     }
     
     /* ==========================================
-       UNBREAKABLE BUTTON CSS 
-       Targeting buttons natively by 'kind'
+       VIBRANT NEON OUTLINE BUTTONS
+       Targeting nested grid columns safely
        ========================================== */
        
-    /* 1. WIN BUTTONS (Targeted via kind="primary") */
-    section[data-testid="stMain"] button[kind="primary"] {
-        background: linear-gradient(135deg, #65a30d 0%, #a3e635 100%) !important; /* Vivid Yellowish Green */
-        border: none !important;
-        color: #0b0f19 !important; /* Dark text on bright button for readability */
+    /* 1. WIN BUTTONS (Neon Lime Green Outline) */
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"] {
+        background-color: rgba(57, 255, 20, 0.05) !important;
+        border: 2px solid #39FF14 !important;
+        color: #39FF14 !important;
         font-weight: 800 !important;
         letter-spacing: 1px !important;
-        box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3) !important;
         border-radius: 6px !important;
-        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        transition: all 0.3s ease !important;
+        box-shadow: none !important;
     }
-    section[data-testid="stMain"] button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #84cc16 0%, #bef264 100%) !important; /* Brighter on hover */
+    /* Inner & Outer Glow on Hover */
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"]:hover {
+        background-color: rgba(57, 255, 20, 0.15) !important;
+        color: #ffffff !important;
+        text-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
+        box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), inset 0 0 15px rgba(57, 255, 20, 0.5) !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(132, 204, 22, 0.5) !important;
-        color: #0b0f19 !important;
     }
-    section[data-testid="stMain"] button[kind="primary"]:active {
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"]:active {
         transform: translateY(1px) !important;
-        box-shadow: 0 2px 6px rgba(132, 204, 22, 0.4) !important;
+        box-shadow: 0 0 8px rgba(57, 255, 20, 0.3), inset 0 0 8px rgba(57, 255, 20, 0.4) !important;
     }
     
-    /* 2. LOSS BUTTONS (Targeted via kind="secondary") */
-    section[data-testid="stMain"] button[kind="secondary"] {
-        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important; /* Vivid Ruby Red */
-        border: none !important;
-        color: #ffffff !important;
+    /* 2. LOSS BUTTONS (Neon Ruby Red Outline) */
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"] {
+        background-color: rgba(255, 51, 51, 0.05) !important;
+        border: 2px solid #FF3333 !important;
+        color: #FF3333 !important;
         font-weight: 800 !important;
         letter-spacing: 1px !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
         border-radius: 6px !important;
-        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    }
-    section[data-testid="stMain"] button[kind="secondary"]:hover {
-        background: linear-gradient(135deg, #ef4444 0%, #f87171 100%) !important; /* Brighter on hover */
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.5) !important;
-        color: #ffffff !important;
-    }
-    section[data-testid="stMain"] button[kind="secondary"]:active {
-        transform: translateY(1px) !important;
-        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4) !important;
-    }
-
-    /* 3. REVERT "SAVE CHANGES" BUTTON (Inside the expander) */
-    /* We make all secondary buttons RED globally, so we must revert the save button inside the edit menu */
-    section[data-testid="stMain"] div[data-testid="stExpander"] button[kind="secondary"] {
-        background: transparent !important;
-        border: 1px solid #38bdf8 !important;
-        color: #38bdf8 !important;
-        text-shadow: none !important;
+        transition: all 0.3s ease !important;
         box-shadow: none !important;
-        transform: none !important;
     }
-    section[data-testid="stMain"] div[data-testid="stExpander"] button[kind="secondary"]:hover {
-        background: #38bdf8 !important;
-        color: #0b0f19 !important;
-        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+    /* Inner & Outer Glow on Hover */
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"]:hover {
+        background-color: rgba(255, 51, 51, 0.15) !important;
+        color: #ffffff !important;
+        text-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
+        box-shadow: 0 0 15px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(255, 51, 51, 0.5) !important;
+        transform: translateY(-2px) !important;
+    }
+    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"]:active {
+        transform: translateY(1px) !important;
+        box-shadow: 0 0 8px rgba(255, 51, 51, 0.3), inset 0 0 8px rgba(255, 51, 51, 0.4) !important;
     }
 
     /* STEALTHY EDIT EXPANDER */
@@ -360,6 +347,16 @@ st.markdown("""
     }
     div[data-testid="stExpander"] summary:hover {
         color: #38bdf8 !important;
+    }
+    
+    /* Ensure the "Save Changes" button inside the expander stays subtle */
+    div[data-testid="stExpander"] button[kind="secondary"] {
+        border: 1px solid #38bdf8 !important;
+        color: #38bdf8 !important;
+    }
+    div[data-testid="stExpander"] button[kind="secondary"]:hover {
+        background: #38bdf8 !important;
+        color: #0b0f19 !important;
     }
 </style>
 """, unsafe_allow_html=True)
