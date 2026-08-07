@@ -19,7 +19,7 @@ st.markdown("""
         border: 1px solid #2a475e;
         border-radius: 8px;
         padding: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         transition: transform 0.2s ease, border-color 0.2s ease;
     }
@@ -59,8 +59,8 @@ st.markdown("""
     }
     
     .rank-icon {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         object-fit: contain;
     }
     
@@ -162,23 +162,33 @@ for i in range(0, len(games), cols_per_row):
                     <div class="rank-container">
                         <img src="{game['rank_icon']}" class="rank-icon" />
                         <div>
-                            <div style="font-size:0.8rem; font-weight:600;">{game['rank_name']}</div>
-                            <div style="font-size:0.7rem; color:#8f98a0;">Peak: {game['peak_rank']}</div>
+                            <div style="font-size:0.85rem; font-weight:600;">{game['rank_name']}</div>
+                            <div style="font-size:0.75rem; color:#8f98a0;">Peak: {game['peak_rank']}</div>
                         </div>
                     </div>
-                    <div style="display:flex; justify-between; margin-bottom:8px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                         <span class="stat-badge">W/L: {game['wins']}-{game['losses']}</span>
                         <span class="stat-badge">{win_rate:.1f}% WR</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Update Controls
-                with st.popover("⚙️ Update Stats"):
-                    st.subheader(f"Update {game['title']}")
+                # Update Controls (Stats, Rank, & Images)
+                with st.popover("⚙️ Edit Game & Rank"):
+                    st.subheader(f"Edit {game['title']}")
                     game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
                     game['losses'] = st.number_input("Losses", min_value=0, value=game['losses'], key=f"l_{game['id']}")
-                    game['rank_name'] = st.text_input("Current Rank", value=game['rank_name'], key=f"r_{game['id']}")
-                    game['peak_rank'] = st.text_input("Peak Rank", value=game['peak_rank'], key=f"p_{game['id']}")
-                    if st.button("Apply Updates", key=f"btn_{game['id']}"):
+                    
+                    st.divider()
+                    st.caption("🏆 Rank Details")
+                    game['rank_name'] = st.text_input("Current Rank Name", value=game['rank_name'], key=f"rn_{game['id']}")
+                    game['peak_rank'] = st.text_input("Peak Rank Name", value=game['peak_rank'], key=f"pr_{game['id']}")
+                    game['rank_icon'] = st.text_input("Rank Icon Image URL", value=game['rank_icon'], key=f"ri_{game['id']}")
+                    
+                    st.divider()
+                    st.caption("🖼️ Artwork")
+                    game['cover'] = st.text_input("Cover Image URL", value=game['cover'], key=f"c_{game['id']}")
+                    
+                    if st.button("Save Changes", key=f"btn_{game['id']}"):
+                        st.success("Updated successfully!")
                         st.rerun()
