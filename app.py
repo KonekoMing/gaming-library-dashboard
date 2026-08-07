@@ -1,8 +1,54 @@
 import streamlit as st
 import pandas as pd
+import json
+import os
 
 # Page Configuration
 st.set_page_config(page_title="Gaming Vault", page_icon="🎮", layout="wide")
+
+# File path for permanent data storage
+DATA_FILE = "games.json"
+
+# Helper Function: Load games from JSON file
+def load_games():
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE, "r") as f:
+                return json.load(f)
+        except Exception as e:
+            st.error(f"Error loading saved data: {e}")
+    
+    # Default initial games if no JSON file exists yet
+    return [
+        {
+            "id": 1,
+            "title": "Overwatch 2",
+            "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
+            "rank_name": "Diamond 2",
+            "peak_rank": "Master 5",
+            "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+            "wins": 42,
+            "losses": 28
+        },
+        {
+            "id": 2,
+            "title": "Rainbow Six Siege",
+            "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+            "rank_name": "Emerald III",
+            "peak_rank": "Diamond I",
+            "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+            "wins": 65,
+            "losses": 40
+        }
+    ]
+
+# Helper Function: Save games to JSON file
+def save_games():
+    try:
+        with open(DATA_FILE, "w") as f:
+            json.dump(st.session_state.games, f, indent=4)
+    except Exception as e:
+        st.error(f"Error saving data: {e}")
 
 # Custom Steam-style CSS
 st.markdown("""
@@ -75,30 +121,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize Session Data with Defaults if Empty
+# Initialize Session Data from JSON Storage
 if "games" not in st.session_state:
-    st.session_state.games = [
-        {
-            "id": 1,
-            "title": "Overwatch 2",
-            "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
-            "rank_name": "Diamond 2",
-            "peak_rank": "Master 5",
-            "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-            "wins": 42,
-            "losses": 28
-        },
-        {
-            "id": 2,
-            "title": "Rainbow Six Siege",
-            "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
-            "rank_name": "Emerald III",
-            "peak_rank": "Diamond I",
-            "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-            "wins": 65,
-            "losses": 40
-        }
-    ]
+    st.session_state.games = load_games()
 
 # Header
 st.title("🎮 Steam Vault Stats")
@@ -129,6 +154,7 @@ with st.sidebar.expander("➕ Add New Game", expanded=False):
                 "wins": new_wins,
                 "losses": new_losses
             })
+            save_games()  # Permanently save to JSON
             st.success(f"Added {new_title}!")
             st.rerun()
 
@@ -138,6 +164,7 @@ with st.sidebar.expander("🗑️ Remove Game"):
         game_to_remove = st.selectbox("Select Game to Delete", [g["title"] for g in st.session_state.games])
         if st.button("Confirm Delete"):
             st.session_state.games = [g for g in st.session_state.games if g["title"] != game_to_remove]
+            save_games()  # Permanently save deletion
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
@@ -173,7 +200,7 @@ for i in range(0, len(games), cols_per_row):
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Inline Expander (Replaces floating popover to fix screen clipping on iPad & Mac)
+                # Inline Expander for editing game stats and images
                 with st.expander("⚙️ Edit Game & Rank"):
                     st.caption("📊 Match Stats")
                     game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
@@ -191,5 +218,6 @@ for i in range(0, len(games), cols_per_row):
                     
                     st.divider()
                     if st.button("Save Changes", key=f"btn_{game['id']}"):
-                        st.success("Updated successfully!")
+                        save_games()  # Permanently save updates
+                        st.success("Updated & Saved permanently!")
                         st.rerun()
