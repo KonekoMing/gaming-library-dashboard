@@ -1,48 +1,110 @@
 import streamlit as st
-import pandas as pd
 import json
 import os
 
-# Page Configuration
-st.set_page_config(page_title="Rank Tracker", page_icon="🎮", layout="wide")
+# Page Configuration (Clean Tab Title, No Icon)
+st.set_page_config(page_title="Rank Tracker", layout="wide")
 
-# File path for permanent data storage
+# File path for persistent data storage
 DATA_FILE = "games.json"
 
-# Helper Function: Load games from JSON file
+# Hardcoded Default Games in Exact Requested Order
+DEFAULT_GAMES = [
+    {
+        "id": 1,
+        "title": "Overwatch",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 2,
+        "title": "Rainbow Six Siege",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 3,
+        "title": "Fortnite",
+        "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 4,
+        "title": "Modern Warfare 4",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 5,
+        "title": "Tekken 8",
+        "cover": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 6,
+        "title": "Arena Breakout Infinite",
+        "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 7,
+        "title": "Delta Force",
+        "cover": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
+        "wins": 0,
+        "losses": 0
+    },
+    {
+        "id": 8,
+        "title": "FragPunk",
+        "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
+        "rank_name": "Unranked",
+        "peak_rank": "Unranked",
+        "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+        "wins": 0,
+        "losses": 0
+    }
+]
+
+# Helper Function: Load games from storage
 def load_games():
     if os.path.exists(DATA_FILE):
         try:
             with open(DATA_FILE, "r") as f:
-                return json.load(f)
+                saved_data = json.load(f)
+                if saved_data and len(saved_data) > 0:
+                    return saved_data
         except Exception as e:
             st.error(f"Error loading saved data: {e}")
-    
-    # Default initial games if no JSON file exists yet
-    return [
-        {
-            "id": 1,
-            "title": "Overwatch 2",
-            "cover": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400",
-            "rank_name": "Diamond 2",
-            "peak_rank": "Master 5",
-            "rank_icon": "https://cdn-icons-png.flaticon.com/512/616/616490.png",
-            "wins": 42,
-            "losses": 28
-        },
-        {
-            "id": 2,
-            "title": "Rainbow Six Siege",
-            "cover": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400",
-            "rank_name": "Emerald III",
-            "peak_rank": "Diamond I",
-            "rank_icon": "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
-            "wins": 65,
-            "losses": 40
-        }
-    ]
+    return DEFAULT_GAMES
 
-# Helper Function: Save games to JSON file
+# Helper Function: Save games to storage
 def save_games():
     try:
         with open(DATA_FILE, "w") as f:
@@ -50,16 +112,16 @@ def save_games():
     except Exception as e:
         st.error(f"Error saving data: {e}")
 
-# Custom Steam-style CSS
+# Styling for Vertical Steam Posters and Dark Theme
 st.markdown("""
 <style>
-    /* Dark Steam Background */
+    /* Dark Theme */
     .stApp {
         background-color: #101822;
         color: #f3f3f3;
     }
     
-    /* Steam Card Styling */
+    /* Steam Vertical Card Styling */
     .steam-card {
         background: linear-gradient(135deg, #1b2838 0%, #171a21 100%);
         border: 1px solid #2a475e;
@@ -74,39 +136,40 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
-    /* Cover Art (66% Aspect Ratio like Steam vertical posters) */
+    /* Explicit Vertical Aspect Ratio (Vertical Steam Posters) */
     .cover-art {
         width: 100%;
-        height: 240px;
+        height: 320px;
         object-fit: cover;
         border-radius: 6px;
         margin-bottom: 10px;
     }
     
-    /* Title & Rank Badges */
+    /* Title */
     .game-title {
         font-size: 1.1rem;
         font-weight: 700;
         color: #ffffff;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
     
-    .rank-container {
+    /* Rank Rows */
+    .rank-row {
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         background: rgba(0,0,0,0.3);
-        padding: 4px 8px;
+        padding: 6px 10px;
         border-radius: 4px;
     }
     
     .rank-icon {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         object-fit: contain;
     }
     
@@ -114,34 +177,34 @@ st.markdown("""
         background-color: #213245;
         color: #66c0f4;
         font-weight: bold;
-        padding: 2px 6px;
+        padding: 4px 8px;
         border-radius: 4px;
         font-size: 0.85rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize Session Data from JSON Storage
+# Initialize Session Data
 if "games" not in st.session_state:
     st.session_state.games = load_games()
 
-# Header
-st.title(" Rank Tracker ")
+# Main Header (No Icon)
+st.title("Rank Tracker")
 
 # Sidebar Controls
-st.sidebar.header("🕹️ Vault Management")
+st.sidebar.header("Management")
 
-# Section: Add New Game
+# Add Game Option
 with st.sidebar.expander("➕ Add New Game", expanded=False):
     new_title = st.text_input("Game Title")
-    new_cover = st.text_input("Cover Image URL (Vertical)", "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400")
+    new_cover = st.text_input("Cover Image URL (Vertical Poster)", "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400")
     new_rank = st.text_input("Current Rank Name", "Unranked")
     new_peak = st.text_input("Peak Rank Name", "Unranked")
     new_rank_icon = st.text_input("Rank Icon Image URL", "https://cdn-icons-png.flaticon.com/512/616/616490.png")
     new_wins = st.number_input("Initial Wins", min_value=0, value=0)
     new_losses = st.number_input("Initial Losses", min_value=0, value=0)
     
-    if st.button("Save Game to Vault"):
+    if st.button("Save Game"):
         if new_title:
             new_id = max([g["id"] for g in st.session_state.games] + [0]) + 1
             st.session_state.games.append({
@@ -154,21 +217,21 @@ with st.sidebar.expander("➕ Add New Game", expanded=False):
                 "wins": new_wins,
                 "losses": new_losses
             })
-            save_games()  # Permanently save to JSON
+            save_games()
             st.success(f"Added {new_title}!")
             st.rerun()
 
-# Section: Remove Game
+# Remove Game Option
 with st.sidebar.expander("🗑️ Remove Game"):
     if st.session_state.games:
         game_to_remove = st.selectbox("Select Game to Delete", [g["title"] for g in st.session_state.games])
         if st.button("Confirm Delete"):
             st.session_state.games = [g for g in st.session_state.games if g["title"] != game_to_remove]
-            save_games()  # Permanently save deletion
+            save_games()
             st.warning(f"Deleted {game_to_remove}")
             st.rerun()
 
-# Render Grid (4 Columns wide like Steam)
+# Render Grid (4 Columns wide for vertical posters)
 cols_per_row = 4
 games = st.session_state.games
 
@@ -181,26 +244,29 @@ for i in range(0, len(games), cols_per_row):
             win_rate = (game["wins"] / total_matches * 100) if total_matches > 0 else 0.0
             
             with cols[j]:
-                # Custom Card Container
+                # Render Vertical Card
                 st.markdown(f"""
                 <div class="steam-card">
                     <img src="{game['cover']}" class="cover-art" />
                     <div class="game-title">{game['title']}</div>
-                    <div class="rank-container">
+                    <!-- Row 1: Rank Icon + Peak Rank -->
+                    <div class="rank-row">
                         <img src="{game['rank_icon']}" class="rank-icon" />
-                        <div>
-                            <div style="font-size:0.85rem; font-weight:600;">{game['rank_name']}</div>
-                            <div style="font-size:0.75rem; color:#8f98a0;">Peak: {game['peak_rank']}</div>
-                        </div>
+                        <div style="font-size:0.85rem; color:#8f98a0;">Peak: <strong style="color:#ffffff;">{game['peak_rank']}</strong></div>
                     </div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <!-- Row 2: Current Rank -->
+                    <div style="font-size:0.9rem; font-weight:600; margin-bottom:8px; padding-left:4px;">
+                        Current: <span style="color:#66c0f4;">{game['rank_name']}</span>
+                    </div>
+                    <!-- Row 3: W/L Count & Win Rate -->
+                    <div style="display:flex; justify-content:space-between;">
                         <span class="stat-badge">W/L: {game['wins']}-{game['losses']}</span>
                         <span class="stat-badge">{win_rate:.1f}% WR</span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Inline Expander for editing game stats and images
+                # Edit Drawer
                 with st.expander("⚙️ Edit Game & Rank"):
                     st.caption("📊 Match Stats")
                     game['wins'] = st.number_input("Wins", min_value=0, value=game['wins'], key=f"w_{game['id']}")
@@ -214,10 +280,10 @@ for i in range(0, len(games), cols_per_row):
                     
                     st.divider()
                     st.caption("🖼️ Cover Artwork")
-                    game['cover'] = st.text_input("Game Cover Poster URL", value=game['cover'], key=f"c_{game['id']}")
+                    game['cover'] = st.text_input("Vertical Poster Image URL", value=game['cover'], key=f"c_{game['id']}")
                     
                     st.divider()
                     if st.button("Save Changes", key=f"btn_{game['id']}"):
-                        save_games()  # Permanently save updates
-                        st.success("Updated & Saved permanently!")
+                        save_games()
+                        st.success("Updated & Saved!")
                         st.rerun()
