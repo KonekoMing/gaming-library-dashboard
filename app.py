@@ -140,10 +140,14 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-    /* Dark Theme Background */
-    .stApp { background-color: #0b0f19; color: #f8fafc; }
+    /* === DYNAMIC BACKGROUND === 
+       Glassmorphism needs a varied background to show the blur effect.
+       This adds a subtle, deep glowing aura to the dark background. */
+    .stApp { 
+        background: radial-gradient(circle at 15% 50%, #17243b, #0b0f19 50%, #080a10 100%); 
+        color: #f8fafc; 
+    }
     
-    /* Lock max width to prevent stretching on Macs */
     .block-container { max-width: 1250px !important; }
     .stMarkdown, .stMarkdown p { margin: 0 !important; padding: 0 !important; }
     
@@ -160,34 +164,44 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
     
-    /* Modern Custom Game Card - FULL BLEED EDGE-TO-EDGE */
+    /* === iOS APPLE GLASSMORPHISM CARD === */
     .custom-card {
-        background: linear-gradient(145deg, #151f2b 0%, #0d131a 100%);
-        border: 1px solid #233547;
-        border-radius: 12px;
+        /* Semi-transparent dark overlay */
+        background: rgba(20, 30, 45, 0.35); 
+        
+        /* The magical Apple blur effect */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        
+        /* Delicate frosty borders */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.15); /* Light catching the top edge */
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        
+        /* Rounder Apple-style corners */
+        border-radius: 16px;
         padding: 0; 
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         margin-bottom: 6px;
     }
     .custom-card:hover {
-        border-color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.5);
         transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+        box-shadow: 0 12px 35px rgba(56, 189, 248, 0.25);
     }
     
-    /* Image Container for Glare Effect */
+    /* Image Container */
     .img-container {
         position: relative;
         width: 100%;
         overflow: hidden;
-        border-radius: 12px 12px 0 0; 
-        border-bottom: 1px solid #233547;
+        border-radius: 16px 16px 0 0; 
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
-    /* 2:3 Vertical Poster Settings */
     .card-img {
         width: 100%;
         display: block;
@@ -199,14 +213,14 @@ st.markdown("""
         transform: scale(1.04);
     }
     
-    /* Steam Style Glare */
+    /* Steam Style Glare (Kept for style) */
     .glare {
         position: absolute;
         top: 0;
         left: -150%;
         width: 50%;
         height: 100%;
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
         transform: skewX(-25deg);
         pointer-events: none;
         z-index: 2;
@@ -218,7 +232,7 @@ st.markdown("""
     
     /* Stats and Text Container */
     .card-body {
-        padding: 10px 10px 14px 10px;
+        padding: 12px 10px 14px 10px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -235,22 +249,24 @@ st.markdown("""
         text-overflow: ellipsis;
     }
     
-    /* Rank Pill Box */
+    /* Glassmorphism Rank Pill Box */
     .rank-info {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #1e293b;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .rank-icon { width: 32px; height: 32px; object-fit: contain; }
     .rank-text { font-size: 0.85rem; line-height: 1.4; }
-    .peak-rank { color: #94a3b8; }
-    .peak-rank strong { color: #f1f5f9; font-weight: 600; }
-    .current-rank { font-weight: 500; color: #e2e8f0; }
-    .highlight-blue { color: #38bdf8; font-weight: 700; }
+    .peak-rank { color: #cbd5e1; }
+    .peak-rank strong { color: #f8fafc; font-weight: 600; }
+    .current-rank { font-weight: 500; color: #f1f5f9; }
+    .highlight-blue { color: #38bdf8; font-weight: 700; text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
     
     /* Stats & Progress */
     .stats-row {
@@ -258,90 +274,85 @@ st.markdown("""
         justify-content: space-between;
         font-size: 0.9rem;
         font-weight: 600;
-        color: #cbd5e1;
+        color: #e2e8f0;
         padding: 0 4px;
     }
     .progress-bar-bg {
-        background-color: #1e293b;
+        background-color: rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.05);
         border-radius: 6px;
-        height: 6px;
+        height: 8px;
         width: 100%;
         overflow: hidden;
     }
-    .progress-fill-green { background-color: #10b981; height: 100%; }
-    .progress-fill-yellow { background-color: #f59e0b; height: 100%; }
-    .progress-fill-red { background-color: #ef4444; height: 100%; }
+    .progress-fill-green { background: linear-gradient(90deg, #10b981, #34d399); height: 100%; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
+    .progress-fill-yellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); height: 100%; box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+    .progress-fill-red { background: linear-gradient(90deg, #ef4444, #f87171); height: 100%; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
     
     .streak-text {
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: #cbd5e1;
         text-align: right;
         margin-top: -4px;
         padding-right: 4px;
     }
     
     /* ==========================================
-       VIBRANT NEON OUTLINE BUTTONS
-       Targeting nested grid columns safely
+       GLASS/NEON BUTTONS
        ========================================== */
        
-    /* 1. WIN BUTTONS (Neon Lime Green Outline) */
+    /* WIN BUTTONS (Neon Lime Green Outline with Glass Base) */
     section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"] {
-        background-color: rgba(57, 255, 20, 0.05) !important;
+        background: rgba(57, 255, 20, 0.05) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
         border: 2px solid #39FF14 !important;
         color: #39FF14 !important;
         font-weight: 800 !important;
         letter-spacing: 1px !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
         transition: all 0.3s ease !important;
-        box-shadow: none !important;
     }
-    /* Inner & Outer Glow on Hover */
     section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"]:hover {
-        background-color: rgba(57, 255, 20, 0.15) !important;
+        background: rgba(57, 255, 20, 0.2) !important;
         color: #ffffff !important;
         text-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
         box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), inset 0 0 15px rgba(57, 255, 20, 0.5) !important;
         transform: translateY(-2px) !important;
     }
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="primary"]:active {
-        transform: translateY(1px) !important;
-        box-shadow: 0 0 8px rgba(57, 255, 20, 0.3), inset 0 0 8px rgba(57, 255, 20, 0.4) !important;
-    }
     
-    /* 2. LOSS BUTTONS (Neon Ruby Red Outline) */
+    /* LOSS BUTTONS (Neon Ruby Red Outline with Glass Base) */
     section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"] {
-        background-color: rgba(255, 51, 51, 0.05) !important;
+        background: rgba(255, 51, 51, 0.05) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
         border: 2px solid #FF3333 !important;
         color: #FF3333 !important;
         font-weight: 800 !important;
         letter-spacing: 1px !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
         transition: all 0.3s ease !important;
-        box-shadow: none !important;
     }
-    /* Inner & Outer Glow on Hover */
     section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"]:hover {
-        background-color: rgba(255, 51, 51, 0.15) !important;
+        background: rgba(255, 51, 51, 0.2) !important;
         color: #ffffff !important;
         text-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
         box-shadow: 0 0 15px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(255, 51, 51, 0.5) !important;
         transform: translateY(-2px) !important;
     }
-    section[data-testid="stMain"] [data-testid="stHorizontalBlock"] [data-testid="stHorizontalBlock"] button[kind="secondary"]:active {
-        transform: translateY(1px) !important;
-        box-shadow: 0 0 8px rgba(255, 51, 51, 0.3), inset 0 0 8px rgba(255, 51, 51, 0.4) !important;
-    }
 
-    /* STEALTHY EDIT EXPANDER */
+    /* === GLASSMORPHISM EDIT EXPANDER === */
     div[data-testid="stExpander"] {
-        border: 1px solid #233547 !important;
-        border-radius: 8px !important;
-        background-color: #0f1722 !important;
+        background: rgba(20, 30, 45, 0.35) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
         margin-top: -5px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
     }
     div[data-testid="stExpander"] summary {
-        color: #94a3b8 !important;
+        color: #cbd5e1 !important;
         font-size: 0.9rem !important;
         padding: 8px 12px !important;
     }
@@ -349,14 +360,17 @@ st.markdown("""
         color: #38bdf8 !important;
     }
     
-    /* Ensure the "Save Changes" button inside the expander stays subtle */
+    /* Ensure the "Save Changes" button inside the expander matches the glass theme */
     div[data-testid="stExpander"] button[kind="secondary"] {
-        border: 1px solid #38bdf8 !important;
+        background: rgba(56, 189, 248, 0.1) !important;
+        border: 1px solid rgba(56, 189, 248, 0.5) !important;
         color: #38bdf8 !important;
+        border-radius: 8px !important;
     }
     div[data-testid="stExpander"] button[kind="secondary"]:hover {
-        background: #38bdf8 !important;
-        color: #0b0f19 !important;
+        background: rgba(56, 189, 248, 0.3) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -453,7 +467,7 @@ for idx, game in enumerate(games):
             game['notes'] = st.text_area("Session Notes", value=game.get('notes', ""), key=f"nt_{game['id']}")
             
             st.divider()
-            # This is "secondary" by default, so it gets the grey override in CSS
+            # This is "secondary" by default, so it gets the glass override in CSS
             if st.button("Save Changes", key=f"btn_{game['id']}"):
                 save_games()
                 st.success("Updated & Saved!")
