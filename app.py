@@ -1,6 +1,8 @@
 import streamlit as st
 import json
 import os
+import requests
+import base64
 
 # Page Configuration (Clean Tab Title, No Icon)
 st.set_page_config(page_title="Rank Tracker", layout="wide")
@@ -104,13 +106,51 @@ def load_games():
             st.error(f"Error loading saved data: {e}")
     return DEFAULT_GAMES
 
-# Helper Function: Save games to storage
+# Helper Function: Save games permanently to GitHub via API
 def save_games():
-    try:
-        with open(DATA_FILE, "w") as f:
-            json.dump(st.session_state.games, f, indent=4)
-    except Exception as e:
-        st.error(f"Error saving data: {e}")
+    # Check if GitHub Secrets are configured
+    if "GITHUB_TOKEN" in st.secrets and "REPO_NAME" in st.secrets:
+        token = st.secrets["GITHUB_TOKEN"]
+        repo = st.secrets["REPO_NAME"]
+        url = f"https://api.github.com/repos/{repo}/contents/{DATA_FILE}"
+        
+        headers = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        
+        # 1. Get current file SHA (required by GitHub API to overwrite files)
+        sha = None
+        get_res = requests.get(url, headers=headers)
+        if get_res.status_code == 200:
+            sha = get_res.json().get("sha")
+            
+        # 2. Encode updated JSON data to base64
+        json_data = json.dumps(st.session_state.games, indent=4)
+        encoded_content = base64.b64encode(json_data.encode("utf-8")).decode("utf-8")
+        
+        # 3. Commit updated file to GitHub
+        payload = {
+            "message": "Auto-save stats from Rank Tracker app",
+            "content": encoded_content
+        }
+        if sha:
+            payload["sha"] = sha
+            
+        put_res = requests.put(url, headers=headers, json=payload)
+        
+        if put_res.status_code in [200, 201]:
+            st.toast("Saved permanently to GitHub!", icon="✅")
+        else:
+            st.error(f"GitHub API Save Error: {put_res.status_code} - {put_res.text}")
+    else:
+        # Fallback to local save if secrets aren't set up yet
+        try:
+            with open(DATA_FILE, "w") as f:
+                json.dump(st.session_state.games, f, indent=4)
+            st.toast("Saved locally (Configure Streamlit Secrets for permanent cloud sync)", icon="⚠️")
+        except Exception as e:
+            st.error(f"Error saving data: {e}")
 
 # Styling for 2:3 Vertical Posters and Dark Theme
 st.markdown("""
