@@ -18,9 +18,9 @@
         "rank_name": "Gold 2",
         "peak_rank": "Platinum 5",
         "rank_icon": "https://buyboosting.com/assets/imgs/rss/rank-icons/gold.webp",
-        "wins": 4,
+        "wins": 5,
         "losses": 5,
-        "streak": -2,
+        "streak": 1,
         "notes": ""
     },
     {
