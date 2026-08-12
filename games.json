@@ -3,12 +3,12 @@
         "id": 1,
         "title": "Overwatch",
         "cover": "https://cdn2.steamgriddb.com/thumb/f8b146b1264be1257e65f518de82a372.jpg",
-        "rank_name": "",
-        "peak_rank": "",
+        "rank_name": "Diamond 1",
+        "peak_rank": "Diamond 1",
         "rank_icon": "https://cdn.gameboost.com/games/overwatch-2/tiers/Diamond.webp",
         "wins": 9,
         "losses": 1,
-        "streak": -1,
+        "streak": 2,
         "notes": ""
     },
     {
